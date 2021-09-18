@@ -5,7 +5,7 @@ class Events(commands.Cog):
   def __init__(self, bot):
    self.bot = bot
   
-  @commands.Cog.listener("on_message")
+  @self.bot.listen("on_message")
   async def prefixcheck(message):
    if message.content == "!a" or message.content == "•" and not message.author.bot:
     await message.reply(embed=generate_embed("Roger that", "Hey you actually have to use a command ok thanks", "Alone Bot"), mention_author=False)
