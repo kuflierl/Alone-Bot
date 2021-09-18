@@ -3,22 +3,7 @@ from discord.ext import commands
 from ext.useful import generate_embed
 
 cogs = ["ext.essential","ext.owner","ext.moderation","ext.error","ext.sql"]
-for cogs in cogs:
- 
- def generate_button(int, content):
-  button = discord.ui.View()
-  if int == 1:
-   style = discord.ButtonStyle.grey
-  elif int == 2:
-   style = discord.ButtonStyle.green
-  elif int == 3:
-   style = discord.ButtonStyle.red
-  elif int == 4:
-   style = discord.ButtonStyle.blurple
-  elif int == 5:
-   style = discord.ButtonStyle.url
-  item = content
-  return view
+for cogs in cogs: 
 
 class Owner(commands.Cog):
   def __init__(self, bot):
