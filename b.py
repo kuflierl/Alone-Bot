@@ -37,5 +37,17 @@ async def on_ready():
 async def aftercount(ctx):
  bot.commandcounter += 1
 
+@bot.command(hidden=True)
+@commands.is_owner()
+async def cogsave(ctx):
+ await self.bot.load_extension(cogs)
+ await ctx.send("done")
+
+@bot.command(hidden=True)
+@command.is_owner()
+async def devkill(ctx):
+ await ctx.send("cya")
+ await self.bot.close()
+ 
 ratelimitcheck.start()
 bot.run("Nzg0NTQ1MTg2NjEyNTEwODEx.X8q2pA.Zbw5VIA3v-02yKF4hl68sFaw27Y")
