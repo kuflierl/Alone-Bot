@@ -9,6 +9,9 @@ class Minecord(commands.Cog):
     self.bot = bot
 
   @commands.command()
+  
+  
+  @commands.command()
   @commands.is_owner()
   async def nuke(self, ctx):
    await self.bot.db.execute("DROP TABLE minecord")
@@ -23,10 +26,18 @@ class Minecord(commands.Cog):
        return await ctx.reply("I made a profile for you due to you not having one, if you did please contact my developer about it. Anyways welcome to Minecord!", mention_author=False)
    pickaxe = table["pickaxe"]
    stone = table["stone"]
-   stonee = random.randint(1 + pickaxe, 25 + pickaxe)
+   coal = table["coal"]
+   iron =  table["iron"]
+   ironn = random.randint(0 + pickaxe, 0 + pickaxe)
+   ironnn = iron + ironn
+   coall = random.randint(5 + pickaxe, 25 + pickaxe)
+   coalll = coal + coall
+   stonee = random.randint(10 + pickaxe, 30 + pickaxe)
    stoneee = stonee + stone
-   await self.bot.db.execute(f"UPDATE minecord SET stone = $1", stone + stonee)
-   await ctx.reply(f"You mined {stonee} stone! Now you have {stoneee} stone!", mention_author=False)
+   await self.bot.db.execute(f"UPDATE minecord SET stone = $1", stoneee)
+   await self.bot.db.execute(f"UPDATE minecord SET iron = $1", ironnn)
+   await self.bot.db.execute(f"UPDATE minecord SET coal = $1", coalll)
+   await ctx.reply(f"You mined {stonee} stone, {ironn} iron and {coalll} coal! Now you have {stoneee} stone, {coalll} coal and {ironnn} iron!", mention_author=False)
   
   @commands.command(aliases=["inv"])
   async def inventory(self, ctx):
