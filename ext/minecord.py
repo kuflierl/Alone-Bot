@@ -9,9 +9,6 @@ class Minecord(commands.Cog):
     self.bot = bot
 
   @commands.command()
-  
-  
-  @commands.command()
   @commands.is_owner()
   async def nuke(self, ctx):
    await self.bot.db.execute("DROP TABLE minecord")
