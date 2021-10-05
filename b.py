@@ -65,4 +65,4 @@ async def devkill(ctx):
  
 bot.add_listener(prefixcheck)
 ratelimitcheck.start()
-bot.run("Nzg0NTQ1MTg2NjEyNTEwODEx.X8q2pA.Zbw5VIA3v-02yKF4hl68sFaw27Y")
+bot.run($ {{ secrets.ALONEBOTTOKEN }})
