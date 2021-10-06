@@ -34,7 +34,7 @@ class Essential(commands.Cog):
    memberjoinedyear = member.joined_at.strftime("%x")
    memberjoinedtime = member.joined_at.strftime("%X")
    membercreatedyear = member.created_at.strftime("%x")
-   membercreatedtime = member.created_at.strftime("%X")
+   membercreatedtime = member.created_at.strftime("%X") # thanks to fahad for help with strftime
    status = member.status
    if user.banner:
     userinfoembed = discord.Embed(description=f"Nickname: {member.nick}\nFull Name:{member}\nJoined at: {memberjoinedtime} {memberjoinedyear}\nCreated at: {membercreatedtime} {membercreatedyear}\nAvatar: [click here]({user.avatar.url})\nStatus:\n{status}\nBanner:", timestamp=discord.utils.utcnow(), title="Userinfo", color=discord.Color(int("53bdce", 16)))
