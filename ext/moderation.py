@@ -1,5 +1,5 @@
 import discord
-from discord.ext import flags, commands, tasks
+from discord.ext import commands
 from ext.useful import generate_embed
 
 class Moderation(commands.Cog):

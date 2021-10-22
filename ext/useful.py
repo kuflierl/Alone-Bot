@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands, flags, tasks
+from discord.ext import commands
 
 class Useful(commands.Cog):
   def __init__(self, bot):

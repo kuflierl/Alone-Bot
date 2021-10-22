@@ -62,18 +62,18 @@ class Essential(commands.Cog):
   
   @commands.command()
   async def ping(self, ctx):
-    connection = self.bot.db
+    # connection = self.bot.db
     websock = self.bot.latency * 1000
     startype = time.perf_counter()
     message = await ctx.reply(embed=generate_embed("Ping!", "Wait a second...", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False)
     endtype = time.perf_counter()
-    await connection.execute("SELECT 1")
-    startdb = time.perf_counter()
-    await connection.execute("SELECT 1")
-    enddb = time.perf_counter()
-    databas = (enddb - startdb) * 1000
+    # await connection.execute("SELECT 1")
+    # startdb = time.perf_counter()
+    # await connection.execute("SELECT 1")
+    # enddb = time.perf_counter()
+    # databas = (enddb - startdb) * 1000
     duration = (endtype - startype) * 1000
-    await message.edit(embed=generate_embed("Pong!", f"<a:typing:597589448607399949> Typing\n`{duration:.2f}ms`\n<a:loading:747680523459231834> Websocket\n`{websock:.2f}ms`\n<:postgresql:875853638751359027> Database\n`{databas:.2f}ms`", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url, "101c6b"), delete_after=35)
+    await message.edit(embed=generate_embed("Pong!", f"<a:typing:597589448607399949> Typing\n`{duration:.2f}ms`\n<a:loading:747680523459231834> Websocket\n`{websock:.2f}ms`", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url, "101c6b"), delete_after=35)
    
   @commands.command()
   async def battery(self, ctx):

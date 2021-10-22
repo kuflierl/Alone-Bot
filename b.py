@@ -1,8 +1,9 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import asyncpg
 from datetime import datetime
 import random
+from ext.useful import generate_embed
 
 oid = [821703584789430282, 412734157819609090, 755055117773963476, 771424427605753907, 606648465065246750, 631821494774923264]
 
@@ -18,7 +19,7 @@ class Help(commands.MinimalHelpCommand):
             helpembed.set_image(url="https://cdn.discordapp.com/attachments/685035292989718554/724301857157283910/ezgif-1-a2a2e7173d80.gif")
             await destination.send(embed=helpembed)
 
-bot.db = bot.loop.run_until_complete(asyncpg.create_pool(host="127.0.0.1", port="5432", user="hadock", password="discordbot", database="alonedb"))
+# bot.db = bot.loop.run_until_complete(asyncpg.create_pool(host="127.0.0.1", port="5432", user="hadock", password="discordbot", database="alonedb")
 bot.commandcounter = 0
 bot.help_command = Help()
 bot.launch_time = datetime.utcnow()

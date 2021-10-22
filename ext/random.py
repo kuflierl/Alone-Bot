@@ -1,6 +1,6 @@
 import sr_api
 import discord
-from discord.ext import flags, commands
+from discord.ext import commands
 import async_cleverbot as chatbot
 from ext.useful import generate_embed
 from datetime import datetime
