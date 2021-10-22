@@ -7,8 +7,6 @@ import random
 oid = [821703584789430282, 412734157819609090, 755055117773963476, 771424427605753907, 606648465065246750, 631821494774923264]
 
 intents = discord.Intents.all()
-intents.members = True
-intents.presences = True
 bot = commands.AutoShardedBot(command_prefix=commands.when_mentioned_or("!a","•"), owner_ids=oid, strip_after_prefix=True, case_insensitive=True, activity=discord.Game("Thank you Danny, o7."),intents=intents)
 
 class Help(commands.MinimalHelpCommand):
@@ -29,13 +27,6 @@ bot.load_extension("jishaku")
 initial_extensions = ["ext.essential","ext.owner","ext.moderation","ext.error","ext.sql", "ext.events","ext.minecord","ext.random"]
 for cogs in initial_extensions:
  bot.load_extension(cogs)
-
-@tasks.loop(seconds=5)
-async def ratelimitcheck():
- if bot.is_ws_ratelimited():
-  print(f"At {ratelimitime}, I got ratelimited")
- else:
-  return
 
 @bot.listen()
 async def on_ready():
@@ -61,8 +52,7 @@ async def cogsave(ctx):
 @commands.is_owner()
 async def devkill(ctx):
  await ctx.send("cya")
- await self.bot.close()
+ await ctx.bot.close()
  
 bot.add_listener(prefixcheck)
-ratelimitcheck.start()
 bot.run("Nzg0NTQ1MTg2NjEyNTEwODEx.X8q2pA.Zbw5VIA3v-02yKF4hl68sFaw27Y")
