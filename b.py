@@ -43,7 +43,7 @@ for cogs in initial_extensions:
 async def on_ready():
  print("I'm alive")
 
-@bot.before_invoke
+@bot.listen("on_command")
 async def blacklist(ctx):
  table = await bot.db.fetchrow("SELECT * FROM blacklist WHERE user_id = $1", ctx.author.id)
  if table:
