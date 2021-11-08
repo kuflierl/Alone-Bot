@@ -1,8 +1,4 @@
-from discord.ext import commands, tasks
-import discord
-import asyncpg
-import asyncio
-import datetime
+from discord.ext import commands
 from ext.useful import generate_embed
 
 class PostgreSQL(commands.Cog):
@@ -19,7 +15,7 @@ class PostgreSQL(commands.Cog):
   @commands.command()
   @commands.is_owner()
   async def sqlclose(self, ctx):
-   self.bot.connection = self.bot.db
+   connection = self.bot.db
    await ctx.reply(embed=generate_embed("Closed","It's gone", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False)
    await connection.close()
   

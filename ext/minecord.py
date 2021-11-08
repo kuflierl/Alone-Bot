@@ -1,6 +1,4 @@
 from discord.ext import commands
-from datetime import datetime
-import asyncpg
 from ext.useful import generate_embed
 import random
 
@@ -16,6 +14,7 @@ class Minecord(commands.Cog):
    await ctx.reply("I nuked the database and deleted everyone's info in minecord.", mention_author=False)
  
   @commands.command()
+  @commands.cooldown(1, 4, commands.BucketType.user)
   async def mine(self, ctx):
    table = await self.bot.db.fetchrow("SELECT * FROM minecord WHERE user_id = $1", ctx.author.id)
    if not table:
