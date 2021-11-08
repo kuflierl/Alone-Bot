@@ -1,8 +1,4 @@
-from discord.ext import commands, tasks
-import discord
-import asyncpg
-import asyncio
-import datetime
+from discord.ext import commands
 from ext.useful import generate_embed
 
 class PostgreSQL(commands.Cog):

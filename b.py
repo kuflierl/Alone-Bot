@@ -1,20 +1,28 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import asyncpg
 from datetime import datetime
-import random
-from ext.useful import generate_embed
 import os
 
 oid = [821703584789430282, 412734157819609090, 755055117773963476, 771424427605753907, 606648465065246750, 631821494774923264]
+
+class BlackListedError(commands.CheckFailure):
+ pass
+class MaintenanceError(commands.CheckFailure):
+ pass
 
 class AloneBot(commands.AutoShardedBot):
  def __init__(self, *args, **kwargs):
   super().__init__(*args, **kwargs)
   self.maintenance = False
+  self.maintenance_reason = ""
+  self.blacklist: dict[int, str] = {}
+  self.db = self.loop.run_until_complete(asyncpg.create_pool(host="127.0.0.1", port="5432", user="hadock", password="discordbot", database="alonedb"))
+  self.commandcounter = 0
+  self.launch_time = datetime.utcnow()
+  self.intents = discord.Intents.all()
 
-intents = discord.Intents.all()
-bot = AloneBot(command_prefix=commands.when_mentioned_or("!a","•"), owner_ids=oid, strip_after_prefix=True, case_insensitive=True, activity=discord.Game("Thank you Danny, o7."),intents=intents)
+bot = AloneBot(command_prefix=commands.when_mentioned_or("!a","•"), owner_ids=oid, strip_after_prefix=True, case_insensitive=True, activity=discord.Game("Thank you Danny, o7."),intents=AloneBot().intents)
 
 class Help(commands.MinimalHelpCommand):
     async def send_pages(self):
@@ -24,16 +32,13 @@ class Help(commands.MinimalHelpCommand):
             helpembed.timestamp = discord.utils.utcnow()
             await destination.send(embed=helpembed)
 
-bot.db = bot.loop.run_until_complete(asyncpg.create_pool(host="127.0.0.1", port="5432", user="hadock", password="discordbot", database="alonedb"))
-bot.commandcounter = 0
-bot.launch_time = datetime.utcnow()
 bot.load_extension("jishaku")
 
-os.environ["JISHAKU_HIDE"] = "true"
-os.environ["JISHAKU_RETAIN"] = "true"
-os.environ["JISHAKU_NO_UNDERSCORE"] = "true"
-os.environ["JISHAKU_FORCE_PAGINATOR"] = "true"
-os.environ["JISHAKU_NO_DM_TRACEBACK"] = "true"
+os.environ["JISHAKU_HIDE"] = "True"
+os.environ["JISHAKU_RETAIN"] = "True"
+os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
+os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
 
 initial_extensions = ["ext.essential","ext.owner","ext.moderation","ext.error","ext.sql", "ext.events","ext.minecord","ext.random", "ext.help"]
 for cogs in initial_extensions:
@@ -43,14 +48,29 @@ for cogs in initial_extensions:
 async def on_ready():
  print("I'm alive")
 
-@bot.listen("on_command")
-async def blacklist(ctx):
- table = await bot.db.fetchrow("SELECT * FROM blacklist WHERE user_id = $1", ctx.author.id)
- if table:
-  reason = table["reason"]
-  return await ctx.send(f"You've been blacklisted, the reason was {reason}, and you cannot appeal. Goodbye.")
-  
- return
+@bot.check
+def blacklist(ctx: commands.Context):
+ if bot.blacklist.get(ctx.author.id) == None:
+  return True
+ else:
+  raise BlackListedError
+
+@bot.check
+def maintenance(ctx: commands.Context):
+ if bot.maintenance == True:
+  if ctx.author.id == id:
+   return True
+  else:
+   raise MaintenanceError
+ else:
+  return True
+
+async def run_once_when_ready():
+ await bot.wait_until_ready()
+ data = await bot.db.fetch("SELECT user_id, reason FROM blacklist")
+ for users in data:
+  bot.blacklist.update({users["user_id"]: users["reason"]})
+  print("Done inserting blacklisted users into cache!")
 
 @bot.after_invoke
 async def aftercount(ctx):
@@ -63,18 +83,6 @@ async def prefixcheck(message):
   embed.set_footer(text="Alone Bot")
   await message.reply(embed=embed,mention_author=False)
 
-@bot.command(hidden=True)
-@commands.is_owner()
-async def cogsave(ctx):
- bot.load_extension(cogs)
- bot.load_extension("jishaku")
- await ctx.send("done")
-
-@bot.command(hidden=True)
-@commands.is_owner()
-async def devkill(ctx):
- await ctx.send("cya")
- await ctx.bot.close()
- 
 bot.add_listener(prefixcheck)
+bot.loop.create_task(run_once_when_ready())
 bot.run("Nzg0NTQ1MTg2NjEyNTEwODEx.X8q2pA.qex5ifbezQvQnLcTzKeaLtzfE5w")

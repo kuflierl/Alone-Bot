@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from datetime import datetime
 import time
-import sys
 import psutil
 from ext.useful import generate_embed
 import sxcu
