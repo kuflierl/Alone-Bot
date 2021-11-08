@@ -1,6 +1,8 @@
+
 import discord
-from discord.ext import commands
 from b import BlackListedError, MaintenanceError
+from discord.ext import commands
+
 
 class Error(commands.Cog):
   def __init__(self, bot):
