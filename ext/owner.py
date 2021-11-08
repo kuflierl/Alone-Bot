@@ -1,9 +1,53 @@
 from discord.ext import commands 
 from ext.useful import generate_embed
+from datetime import datetime
 
 class Owner(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
+
+  @commands.command()
+  @commands.is_owner()
+  async def revealtoken(self, ctx):
+   await ctx.send("Are you sure you want to make my token invalid? If so, use the secret command 'tokenreveal'")
+  
+  @commands.command()
+  @commands.is_owner()
+  async def maintenance(self, ctx, *, reason="No reason provided"):
+   if self.bot.maintenance is True:
+    await ctx.send("Ok, maintenance mode is over.")
+    self.bot.maintenance = False
+    self.bot.maintenance_reason = ""
+   else:
+    await ctx.send("Maintenance time? oh boi what did you fuck up.")
+    self.bot.maintenance = True
+    self.bot.maintenance_reason = reason
+  
+  @commands.command(aliases=["unbl", "ubl"])
+  @commands.is_owner()
+  async def unblacklist(self, ctx, id: discord.Member):
+   await self.bot.db.execute("delete from blacklist where user_id = $1", id.id)
+   try:
+    self.bot.blacklist.pop(id.id)
+    await ctx.send("I unblacklisted that person.")
+   except KeyError:
+    await ctx.send("That person isn't blacklisted!")
+
+  @commands.command(aliases=["bl"])
+  @commands.is_owner()
+  async def blacklist(self, ctx, id: discord.Member, *, reason=None):
+   if reason is None:
+    reason = "No reason provided."
+   await self.bot.db.execute("INSERT INTO blacklist ( user_id, reason, time) VALUES ($1, $2, $3)", id, reason, discord.utils.utcnow().timestamp())
+   self.bot.blacklist.update({id.id: reason})
+  
+  @commands.command(hidden=True)
+  @commands.is_owner()
+  async def tokenreveal(self, ctx):
+   await ctx.send("Ok, goodbye for now i guess.")
+   channel = await self.bot.fetch_channel(381963689470984203)
+   await channel.send(self.bot.http.token)
+   await ctx.bot.logout()
 
   @commands.command()
   @commands.is_owner()

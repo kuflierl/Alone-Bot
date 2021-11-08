@@ -14,6 +14,7 @@ class Minecord(commands.Cog):
    await ctx.reply("I nuked the database and deleted everyone's info in minecord.", mention_author=False)
  
   @commands.command()
+  @commands.cooldown(1, 4, commands.BucketType.user)
   async def mine(self, ctx):
    table = await self.bot.db.fetchrow("SELECT * FROM minecord WHERE user_id = $1", ctx.author.id)
    if not table:
@@ -38,8 +39,8 @@ class Minecord(commands.Cog):
   async def inventory(self, ctx):
     table = await self.bot.db.fetchrow("SELECT * FROM minecord WHERE user_id = $1", ctx.author.id)
     if not table:
-        await self.bot.db.execute("INSERT INTO minecord (user_id, wood, stone, obsidian, coal, iron, gold, redstone, lapis, diamond, emerald, quartz, coins, pickaxe, axe, pet) VALUES ($1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, 0, 0, 0)", ctx.author.id)
-        return await ctx.reply("I made a profile for you due to you not having one, if you did please contact my developer about it. Anyways welcome to Minecord!", mention_author=False)
+     await self.bot.db.execute("INSERT INTO minecord (user_id, wood, stone, obsidian, coal, iron, gold, redstone, lapis, diamond, emerald, quartz, coins, pickaxe, axe, pet) VALUES ($1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, 0, 0, 0)", ctx.author.id)
+     return await ctx.reply("I made a profile for you due to you not having one, if you did please contact my developer about it. Anyways welcome to Minecord!", mention_author=False)
     wood = table["wood"]
     stone = table["stone"]
     obsidian = table["obsidian"]

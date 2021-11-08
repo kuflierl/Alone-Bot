@@ -23,7 +23,7 @@ class Essential(commands.Cog):
    
   @commands.command()
   async def invite(self, ctx):
-   await ctx.reply(embed=generate_embed("Invite","Invite me [here!](https://discord.com/api/oauth2/authorize?client_id=784545186612510811&permissions=8&scope=bot)", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False)
+   await ctx.reply(embed=generate_embed("Invite","Invite me [here!](https://discord.com/oauth2/authorize?client_id=784545186612510811&scope=bot&permissions=67456192)", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False)
    
   @commands.command(aliases=["ui"])
   async def userinfo(self, ctx, *, member: discord.Member=None):
@@ -50,14 +50,24 @@ class Essential(commands.Cog):
    if not guild:
     guild = ctx.guild
    members = len([members for members in guild.members])
-   e = discord.Embed(title=f"Here's {guild.name}'s info:", description=f"Guild Name: {guild.name}\nMembers: {members}")
+   bots = sum(m.bot for m in guild.members)
+   e = discord.Embed(title=f"Here's {guild.name}'s info:", description=f"Name: {guild.name}\nMembers: {guild.member_count}\nBots: {bots}\nNitro Tier: {guild.premium_tier}", color=discord.Color(int("184ef3", 16)))
    e.set_thumbnail(url=guild.icon)
+   e.timestamp = discord.utils.utcnow()
+   e.set_footer(text=f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar.url)
    await ctx.reply(embed=e, mention_author=False, delete_after=120)
   
   @commands.command()
-  async def quote(self, ctx, message):
-   msg = await ctx.channel.fetch_message(message)
-   await ctx.reply(embed=generate_embed(f"{msg.author} sent this:", f"> {msg.content}\n{msg.author.mention}", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False, delete_after=45)
+  async def quote(self, ctx, message=None):
+   if message is None:
+    msg = ctx.message.reference.resolved
+   else:
+    msg = await ctx.channel.fetch_message(message)
+   await ctx.reply(embed=generate_embed(f"{msg.author} sent this:", f"> {msg.content}\n\n- {msg.author.mention}", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False, delete_after=45)
+  
+  @commands.command(hidden=True)
+  async def bottom(self, ctx):
+   await ctx.send("🥺👉👈❤️")
   
   @commands.command()
   async def ping(self, ctx):
@@ -72,7 +82,7 @@ class Essential(commands.Cog):
     enddb = time.perf_counter()
     databas = (enddb - startdb) * 1000
     duration = (endtype - startype) * 1000
-    await message.edit(embed=generate_embed("Pong!", f"<a:typing:597589448607399949> Typing\n`{duration:.2f}ms`\n<a:loading:747680523459231834> Websocket\n`{websock:.2f}ms`", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url, "101c6b"), delete_after=35)
+    await message.edit(embed=generate_embed("Pong!", f"<a:typing:597589448607399949> Typing\n`{duration:.2f}ms`\n<a:loading:747680523459231834> Websocket\n`{websock:.2f}ms`\n<:postgresql:875853638751359027> Database\n`{databas:.2f}ms`", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url, "101c6b"), delete_after=35)
    
   @commands.command()
   async def battery(self, ctx):
@@ -87,7 +97,7 @@ class Essential(commands.Cog):
   @commands.command(aliases=["about","developer"])
   async def credits(self, ctx):
    version = discord.__version__
-   await ctx.reply(embed=generate_embed("About me",f"Hi, my name is Alone Bot. \n My developer is <@412734157819609090> and my helpers are <@606648465065246750> and <@771424427605753907>. \nMy discord.py version is {version}. <:dpy:596577034537402378>\nMy Python version is 3.8.0 <:python:596577462335307777>", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False, delete_after=150)
+   await ctx.reply(embed=generate_embed("About me",f"Hi, my name is Alone Bot. \n My developers are <@412734157819609090> and <@631821494774923264>. \nMy discord.py version is {version}. <:dpy:596577034537402378>\nMy Python version is 3.9.0 <:python:596577462335307777>", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url), mention_author=False, delete_after=150)
 
 def setup(bot):
   bot.add_cog(Essential(bot))

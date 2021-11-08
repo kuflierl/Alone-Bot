@@ -8,15 +8,14 @@ from discord.ext import commands
 from waifuim import WaifuAioClient
 from ext.useful import generate_embed
 
+srapi = sr_api.Client()
+horiapi = WaifuAioClient(session=aiohttp.ClientSession(), appname="Alone Bot")
 reddit = asyncpraw.Reddit(
 client_id="DW0OBpL8vJbwKT8Nhrhj3w",
 client_secret="8Udwhvzmsv4vdwUnBkgAkhIRAsTxhA",
 user_agent="NightSlasher35",
 username="Alone Bot"
 )
-
-srapi = sr_api.Client()
-horiapi = WaifuAioClient(session=aiohttp.ClientSession(), appname="Alone Bot")
 
 class RandomAPIs(commands.Cog):
   def __init__(self, bot):
@@ -40,10 +39,16 @@ class RandomAPIs(commands.Cog):
   async def pp(self, ctx, member: discord.Member=None):
    if member is None:
     ppsize = random.randint(1, 50)
+    if ppsize == 50:
+     channel = self.bot.get_channel(907325536416714792)
+     await channel.send(f"{ctx.author} just got a 50!")
     pp = "".join("="*ppsize)
     await ctx.reply(embed=generate_embed(f"{ctx.author.name}'s pp",f"8{pp}D\n({ppsize}cm)", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url, "ffcff1"), mention_author=False)
    else:
     ppsize = random.randint(1, 50)
+    if ppsize == 50:
+     channel = self.bot.get_channel(907325536416714792)
+     await channel.send(f"{ctx.author} just got a 50!")
     pp = "".join("="*ppsize)
     await ctx.reply(embed=generate_embed(f"{member}'s pp",f"8{pp}D\n({ppsize}cm)", f"Command ran by {ctx.author.name}#{ctx.author.discriminator}", ctx.author.avatar.url, "ffcff1"), mention_author=False)
     
