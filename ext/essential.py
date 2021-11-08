@@ -4,6 +4,9 @@ from datetime import datetime
 import time
 import psutil
 from ext.useful import generate_embed
+import sxcu
+
+connector = sxcu.SXCU()
 
 class Essential(commands.Cog):
   def __init__(self, bot):

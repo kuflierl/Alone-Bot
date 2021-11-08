@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from ext.useful import generate_embed
 
@@ -10,7 +11,7 @@ class Events(commands.Cog):
    channel = self.bot.get_channel(906682479199531051)
    bots = sum(m.bot for m in guild.members)
    await channel.send(embed=generate_embed("I joined a new guild!", f"Name: {guild.name}\nMembers: {guild.member_count}\nBots: {bots}\nNitro Tier: {guild.premium_tier}", "Alone Bot", guild.icon, "5fad68"))
-  
+
   @commands.Cog.listener()
   async def on_guild_leave(self, guild):
    channel = self.bot.get_channel(906682479199531051)

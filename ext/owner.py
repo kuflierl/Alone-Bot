@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands 
 from ext.useful import generate_embed
+from datetime import datetime
 
 class Owner(commands.Cog):
   def __init__(self, bot):
@@ -40,7 +41,6 @@ class Owner(commands.Cog):
     reason = "No reason provided."
    await self.bot.db.execute("INSERT INTO blacklist ( user_id, reason, time) VALUES ($1, $2, $3)", id, reason, discord.utils.utcnow().timestamp())
    self.bot.blacklist.update({id.id: reason})
-   await ctx.send(f"Blacklisted {id} for {reason} at {discord.utils.utcnow().timestamp()}.")
   
   @commands.command(hidden=True)
   @commands.is_owner()
