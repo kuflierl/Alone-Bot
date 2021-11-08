@@ -1,8 +1,5 @@
 import discord
 from discord.ext import commands
-import traceback
-import aiohttp
-from ext.useful import generate_embed
 
 class Error(commands.Cog):
   def __init__(self, bot):

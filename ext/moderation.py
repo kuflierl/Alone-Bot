@@ -26,7 +26,7 @@ class Moderation(commands.Cog):
   async def leave(self, ctx, id=None):
    if id is None:
     await ctx.reply("Leaving this guild because no argument was supplied.", mention_author=False)
-    await guild.leave()
+    await ctx.guild.leave()
    else:
     guildleave = await guild.fetch(id)
     message = await ctx.reply(f"Leaving {guild.name}....", mention_author=False)

@@ -1,15 +1,12 @@
-import sr_api
-import discord
-from discord.ext import commands
-import async_cleverbot as chatbot
-from ext.useful import generate_embed
-from datetime import datetime
 import random
-import asyncpraw
-from waifuim import WaifuAioClient
-import asyncio
+from datetime import datetime
 import aiohttp
-import asyncpg
+import asyncpraw
+import discord
+import sr_api
+from discord.ext import commands
+from waifuim import WaifuAioClient
+from ext.useful import generate_embed
 
 reddit = asyncpraw.Reddit(
 client_id="DW0OBpL8vJbwKT8Nhrhj3w",

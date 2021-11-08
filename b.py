@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
-import asyncpg
 from datetime import datetime
-import random
 from ext.useful import generate_embed
 
 oid = [821703584789430282, 412734157819609090, 755055117773963476, 771424427605753907, 606648465065246750, 631821494774923264]

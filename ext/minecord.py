@@ -1,8 +1,6 @@
-from discord.ext import commands
-from datetime import datetime
-import asyncpg
-from ext.useful import generate_embed
 import random
+from discord.ext import commands
+from ext.useful import generate_embed
 
 class Minecord(commands.Cog):
   def __init__(self, bot):
