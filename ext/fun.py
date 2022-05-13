@@ -1,4 +1,4 @@
-import discord, asyncpg, random, aiohttp, sr_api, asyncpraw, base64
+import discord, asyncpg, random, aiohttp, sr_api, asyncpraw, base64, os
 from discord.ext import commands
 from waifuim import WaifuAioClient
 from datetime import datetime
@@ -7,10 +7,10 @@ srapi = sr_api.Client()
 hori = WaifuAioClient(session=aiohttp.ClientSession(), appname="Alone Bot")
 
 reddit = asyncpraw.Reddit(
-	client_id = "DW0OBpL8vJbwKT8Nhrhj3w",
-	client_secret = "8Udwhvzmsv4vdwUnBkgAkhIRAsTxhA",
-	user_agent = "NightSlasher35",
-	username = "Alone Bot",
+	client_id = os.getenv("client_id")
+	client_secret = os.getenv("client_secret"),
+	user_agent = os.getenv("user_agent"),
+	username = os.getenv("username"),
 )
 
 class Fun(commands.Cog):
