@@ -3,7 +3,6 @@ from discord.ext import commands, tasks
 from datetime import datetime
 from typing import Optional
 
-
 class Help(commands.HelpCommand):
     def get_command_signature(self, command):
         return "%s %s" % (command.qualified_name, command.signature)

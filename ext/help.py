@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from datetime import datetime
-from b import Help
+from main import Help
 
 class Help(commands.Cog):
  def __init__(self, bot):
