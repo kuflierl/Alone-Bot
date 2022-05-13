@@ -50,4 +50,7 @@ jobs:
         API_SECRET: ${{ secrets.UPDATE_TOKEN }}
       run: |
         set -e
+        if [ -n "$API_URL" ] && [ -n "$API_SECRET" ]; then
         sh -c "curl --silent --show-error --fail -H 'auth: $API_SECRET' '$API_URL'"
+        else echo "API information is missing, not triggering!"
+        fi
