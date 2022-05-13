@@ -27,7 +27,25 @@ class Owner(commands.Cog):
 
   @commands.group(invoke_without_command=True)
   async def blacklist(self, ctx):
-	  
+	  for user in self.bot.blacklist:
+      reason = user["reason"]
+      profile = "\n".join(user, reason)
+    await ctx.reply(embed=self.bot.generate_embed("Blacklisted users", profile), mention_author=False)
+
+  @blacklist.command()
+  async def add(self, ctx, id: int, reason: str = "No reason provided"):
+    # db here
+    self.bot.blacklist[id] = reason
+    await ctx.message.add_reaction("\U00002705")
+
+  @blacklist.command()
+  async def remove(self, ctx, id: int):
+    try:
+      self.blacklist.pop(id)
+    except KeyError:
+      await ctx.message.add_reaction("\U0000274c")
+      return await ctx.reply("That user isn't blacklisted!", mention_author=False)
+    await ctx.message.add_reaction("\U00002705")
 
   @commands.command()
   async def disable(self, ctx, command):
