@@ -31,20 +31,20 @@ class Events(commands.Cog):
 
   @commands.Cog.listener()
   async def on_message(self, ctx):
-   if ctx.content == f"<@{self.bot.user.id}>" and not ctx.author.bot:
-    await ctx.channel.send("Hi, you just pinged me.")
+    if ctx.content == f"<@{self.bot.user.id}>" and not ctx.author.bot:
+      await ctx.channel.send("Hi, you just pinged me.")
 
   @commands.Cog.listener("on_message")
   async def is_afk_mention(self, ctx):
-   for id in ctx.raw_mentions:
-    for afkid in self.bot.afk.copy():
-     if id == afkid and not ctx.author.bot:
-        await ctx.channel.send(f"I'm sorry, but <@{id}> went afk for {self.bot.afk[id]}.")
+    for id in ctx.raw_mentions:
+      for afkid in self.bot.afk.copy():
+        if id == afkid and not ctx.author.bot:
+          await ctx.channel.send(f"I'm sorry, but <@{id}> went afk for {self.bot.afk[id]}.")
 
   @commands.Cog.listener("on_message")
   async def is_afk(self, ctx):
-   for id in self.bot.afk.copy():
-    if id == ctx.author.id:
+    for id in self.bot.afk.copy():
+      if id == ctx.author.id:
         self.bot.afk.pop(ctx.author.id)
         await ctx.channel.send(f"Welcome back <@{id}>!")
 
@@ -53,4 +53,4 @@ class Events(commands.Cog):
     await self.bot.process_commands(message)
 
 def setup(bot):
-    bot.add_cog(Events(bot))
+  bot.add_cog(Events(bot))

@@ -58,16 +58,16 @@ class Utility(commands.Cog):
   
   @commands.command(aliases=["ui", "user_info", "user info"])
   async def userinfo(self, ctx, *, member: discord.Member = None):
-   if not member:
-    member = ctx.author
-  jointime = int(member.joined_at.timestamp())
-  createdtime = int(member.created_at.timestamp())
-  status = member.status
-  uiembed=discord.Embed(title="Userinfo", description=f"Name: {member.name}\nNickname: {member.nick}\nJoined at: <t:{jointime}:F>\nreated at: <t:{createdtime}:F>\nAvatar: [Click Here]({member.avatar_url})\nStatus: {status}\nBanner is currently disabled", color=0x53bdce)
-  uiembed.set_thumbnail(url=member.avatar_url)
-  uiembed.timestamp = datetime.utcnow()
-  uiembed.set_footer(text=f"Command ran by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
-  await ctx.reply(embed=uiembed, mention_author=False, delete_after=240)
+    if not member:
+      member = ctx.author
+    jointime = int(member.joined_at.timestamp())
+    createdtime = int(member.created_at.timestamp())
+    status = member.status
+    uiembed=discord.Embed(title="Userinfo", description=f"Name: {member.name}\nNickname: {member.nick}\nJoined at: <t:{jointime}:F>\nreated at: <t:{createdtime}:F>\nAvatar: [Click Here]({member.avatar_url})\nStatus: {status}\nBanner is currently disabled", color=0x53bdce)
+    uiembed.set_thumbnail(url=member.avatar_url)
+    uiembed.timestamp = datetime.utcnow()
+    uiembed.set_footer(text=f"Command ran by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+    await ctx.reply(embed=uiembed, mention_author=False, delete_after=240)
 
   @commands.command(aliases=["server_info", "server info", "si"])
   @commands.guild_only()

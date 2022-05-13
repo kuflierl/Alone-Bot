@@ -7,10 +7,10 @@ srapi = sr_api.Client()
 hori = WaifuAioClient(session=aiohttp.ClientSession(), appname="Alone Bot")
 
 reddit = asyncpraw.Reddit(
-    client_id=os.getenv("client_id"),
-    client_secret=os.getenv("client_secret"),
-    user_agent=os.getenv("user_agent"),
-    username=os.getenv("username"),
+  client_id=os.getenv("client_id"),
+  client_secret=os.getenv("client_secret"),
+  user_agent=os.getenv("user_agent"),
+  username=os.getenv("username"),
 )
 
 class Fun(commands.Cog):
@@ -52,7 +52,6 @@ class Fun(commands.Cog):
       embed.set_footer(text=f"Command ran by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
       embed.set_image(url=waifu_url)
       await ctx.reply(embed=embed, mention_author=False)
-
 
 def setup(bot):
   bot.add_cog(Fun(bot))
