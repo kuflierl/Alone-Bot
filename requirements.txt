@@ -1,0 +1,9 @@
+discord
+asyncpg
+jishaku
+sr-api
+asyncpraw
+waifuim.py
+psutil
+asyncio
+aiohttp
