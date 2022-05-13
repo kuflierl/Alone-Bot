@@ -25,21 +25,9 @@ class Owner(commands.Cog):
    		self.bot.maintenance = False
    		self.bot.maintenance_reason = ""
 
-  @commands.command(aliases=["unbl"])
-  async def unblacklist(self, ctx, id: discord.Member):
-  	# db here
-  	try:
-  		self.bot.blacklist.pop(id.id)
-  		await ctx.message.add_reaction("\U00002705")
-  	except KeyError:
-  		await ctx.message.add_reaction("<:redTick:596576672149667840>")
-  		await ctx.reply("That person isn't blacklisted!", mention_author=False)
-
-  @commands.command(aliases=["bl"])
-  async def blacklist(self, ctx, id: discord.Member, *, reason: str ="No reason provided."):
-  	# db here
-  	self.bot.blacklist[id.id] = reason
-  	await ctx.message.add_reaction("\U00002705")
+  @commands.group(invoke_without_command=True)
+  async def blacklist(self, ctx):
+	  
 
   @commands.command()
   async def disable(self, ctx, command):

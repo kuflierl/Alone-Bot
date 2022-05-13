@@ -51,7 +51,8 @@ os.environ["JISHAKU_NO_DM_TRACEBACK"] = "true"
 class AloneBot(commands.AutoShardedBot):
   	def __init__(self, *args, **kwargs):
   		super().__init__(command_prefix=("!a", "•"), *args, **kwargs)
-  		self.blacklist: dict[int, str] = {}
+  		self.token = os.getenv("token")
+		self.blacklist: dict[int, str] = {}
   		self.afk: dict[int, str] = {}
   		self.maintenance = False
   		self.maintenance_reason = ""
@@ -112,4 +113,4 @@ def maintenance(ctx):
 		else:
 			raise MaintenanceError
 
-bot.run("Nzg0NTQ1MTg2NjEyNTEwODEx.GiY5tT.OhO1qoXlKHdCQCdKuWX0yeJIG9cf6qZoX0zoVk")
+bot.run(bot.token)
