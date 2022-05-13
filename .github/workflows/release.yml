@@ -52,5 +52,17 @@ jobs:
         set -e
         if [ -n "$API_URL" ] && [ -n "$API_SECRET" ]; then
         sh -c "curl --silent --show-error --fail -H 'auth: $API_SECRET' '$API_URL'"
-        else echo "API information is missing, not triggering!"
-        fi
+        else echo "API information is missing, not triggering!"; fi
+
+    - name: Trigger Discord api
+      id: discord_api_trigger
+      env:
+        API_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        COLOR: 65280
+        TITLE: Bot Update to v${{ steps.vars.outputs.release_tag }}
+        DESCRIPTION: Alone Bot is updating to v${{ steps.vars.outputs.release_tag }}\n\nThe bot will be online in a moment.
+      run: |
+        set -e
+        if [ -n "$DISCORD_WEBHOOK_URL" ]; then
+        sh -c 'curl -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"embeds\":[{\"description\":\"$DESCRIPTION\", \"title\":\"$TITLE\", \"color\":$COLOR}]}" $API_URL'
+        else echo "API information is missing, not triggering!"; fi
