@@ -4,7 +4,7 @@ name: Release and Push
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 permissions:
   actions: read
@@ -23,7 +23,8 @@ jobs:
       id: vars
       run: |
         base_version=$(cat app.properties | grep "BASE_VERSION" | cut -d '=' -f 2)
-        build_number=$(($(git tag | grep $base_version | wc -l) + 1))
+        build_number_unpadded=$(($(git tag | grep $base_version | wc -l) + 1))
+        build_number=$(echo -n 0000$build_number_unpadded | tail -c 4)
         release_tag="$base_version-$build_number"
         echo "release tag: $release_tag"
         echo "::set-output name=base_version::$base_version"
