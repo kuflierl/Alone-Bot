@@ -1,4 +1,4 @@
-import discord
+import discord, os
 from discord.ext import commands
 from datetime import datetime
 
@@ -15,11 +15,11 @@ class Owner(commands.Cog):
       await ctx.message.add_reaction("\U00002705")
       self.bot.maintenance = True
       self.bot.maintenance = reason
-      channel = self.bot.get_channel(907363405466333274)
+      channel = self.bot.get_channel(int(os.getenv("maintenance_announcement_channel")))
       await channel.send("I am going on maintenance break, all commands will not work during the downtime.")
     else:
       await ctx.reply("Maintenance break is over.", mention_author=False)
-      channel = self.bot.get_channel(907363405466333274)
+      channel = self.bot.get_channel(int(os.getenv("maintenance_announcement_channel")))
       await channel.send("The maintenance break is over. You can use me again.")
       self.bot.maintenance = False
       self.bot.maintenance_reason = ""

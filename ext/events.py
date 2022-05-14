@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 from datetime import datetime
 import asyncio
+import os
 
 class Events(commands.Cog):
   def __init__(self, bot):
@@ -13,7 +14,7 @@ class Events(commands.Cog):
 
   @commands.Cog.listener()
   async def on_guild_join(self, guild):
-    channel = self.bot.get_channel(906682479199531051)
+    channel = self.bot.get_channel(int(os.getenv("guild_logs_channel")))
     bots = sum(m.bot for m in guild.members)
     joinembed = discord.Embed(title="I joined a new guild!", description=f"Owner: {guild.owner}\nName: {guild.name}\nMembers: {guild.member_count}\nBots: {bots}\nNitro Tier: {guild.premium_tier}", color=discord.Color(int("5fad68", 16)))
     joinembed.set_footer(text="Alone Bot", icon_url=guild.icon_url)
@@ -21,12 +22,12 @@ class Events(commands.Cog):
 
   @commands.Cog.listener()
   async def on_guild_leave(self, guild):
-    channel = self.bot.get_channel(906682479199531051)
+    channel = self.bot.get_channel(int(os.getenv("guild_logs_channel")))
     await channel.send(f"I got kicked from {guild.name}.")
   
   @commands.Cog.listener()
   async def on_command(self, ctx):
-    channel = self.bot.get_channel(906682526456774697)
+    channel = self.bot.get_channel(int(os.getenv("command_logs_channel")))
     await channel.send(f"{ctx.command} was used by {ctx.author} in {ctx.guild}.")
 
   @commands.Cog.listener()

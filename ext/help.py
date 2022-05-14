@@ -5,9 +5,9 @@ from main import Help
 
 class Help(commands.Cog):
   def __init__(self, bot):
-    self._original_help_command = bot.help_command
     bot.help_command = HelpMe()
     bot.help_command_cog = self
+    self._original_help_command = bot.help_command
 
 class HelpMe(commands.HelpCommand):
   async def get_command_signature(self, command):

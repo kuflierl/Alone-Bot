@@ -47,18 +47,18 @@ class Help(commands.HelpCommand):
 
 class AloneBot(commands.AutoShardedBot):
   def __init__(self, *args, **kwargs):
-    super().__init__(command_prefix=("!a", "•"), *args, **kwargs)
+    super().__init__(command_prefix=(os.getenv("prefix")), *args, **kwargs)
     self.token = os.getenv("token")
     self.blacklist: dict[int, str] = {}
     self.afk: dict[int, str] = {}
     self.maintenance = False
     self.maintenance_reason = ""
     self.db = 0
-    self.activity = discord.Game("with my Source Code")
-    self.owner_ids = [349373972103561218, 412734157819609090, 755055117773963476]
+    self.activity = discord.Game(os.getenv("discord_activity"))
+    self.owner_ids = [int(i) for i in os.getenv("owners").split(",")]
     self.command_counter = 0
     self.launch_time = datetime.utcnow()
-    self.support_server = "https://discord.gg/kFkAmqhm"
+    self.support_server = os.getenv("support_server")
     self.strip_after_prefix = True
     self.case_insensitive = True
 

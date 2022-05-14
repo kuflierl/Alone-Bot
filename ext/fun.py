@@ -21,8 +21,8 @@ class Fun(commands.Cog):
   async def token(self, ctx):
     time = await srapi.encode_base64(str(int(datetime.utcnow().timestamp()) + 1923840000))
     id = await srapi.encode_base64(str(ctx.author.id))
-    range = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-    enc = "".join((random.choice(range) for i in range(27)))
+    alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+    enc = "".join((random.choice(alphabet) for i in range(27)))
     await ctx.reply(embed=self.bot.generate_embed(ctx, "Here's your token!", f"Hey {ctx.author.mention}, here's your randomly generated token!\n`{id}.{time}.{enc}`"), mention_author=False)
 
     @commands.command()
