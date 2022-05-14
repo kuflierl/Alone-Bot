@@ -51,8 +51,10 @@ jobs:
         API_SECRET: ${{ secrets.UPDATE_TOKEN }}
       run: |
         set -e
+        trigger_API () { curl --silent --show-error --fail -H "auth: $2" "$1"; }
         if [ -n "$API_URL" ] && [ -n "$API_SECRET" ]; then
-        sh -c "curl --silent --show-error --fail -H 'auth: $API_SECRET' '$API_URL'"
+        retries=3; while ((retries > 0)); do trigger_API "$API_URL" "$API_SECRET" && break; echo "Error, retrying!"; sleep 5; let "--retries"
+        done; if ((retries == 0)); then echo "Failed!" exit 1; fi
         else echo "API information is missing, not triggering!"; fi
 
     - name: Trigger Discord api
@@ -64,6 +66,8 @@ jobs:
         DESCRIPTION: Alone Bot is updating to v${{ steps.vars.outputs.release_tag }}\n\nThe bot will be online in a moment.
       run: |
         set -e
+        trigger_Discord () { curl -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"embeds\":[{\"description\":\"$3\", \"title\":\"$2\", \"color\":$4}]}" $1; }
         if [ -n "$DISCORD_WEBHOOK_URL" ]; then
-        sh -c 'curl -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"embeds\":[{\"description\":\"$DESCRIPTION\", \"title\":\"$TITLE\", \"color\":$COLOR}]}" $API_URL'
+        retries=3; while ((retries > 0)); do trigger_Discord "$API_URL" "$TITLE" "$DESCRIPTION" "$COLOR" && break; echo "Error, retrying!"; sleep 35 let "--retries"
+        done; if ((retries == 0)); then echo "Failed!" exit 1; fi
         else echo "API information is missing, not triggering!"; fi
