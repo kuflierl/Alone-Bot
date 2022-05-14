@@ -14,12 +14,12 @@ class Help(commands.HelpCommand):
     embed = discord.Embed(title="Help", description="Use help (command) or help (category) for more information\n <> is a required argument | [] is an optional argument", color=discord.Color.blurple())
     embed.set_footer(text=f"Command ran by {self.context.author.display_name}", icon_url=self.context.author.avatar_url)
     embed.timestamp = datetime.utcnow()
-      for cog, command in mapping.items():
-        filtered = await self.filter_commands(command, sort=True)
-        command_signatures = [self.get_command_signature(c) for c in filtered]
-          if command_signatures:
-            cog_name = getattr(cog, "qualified_name", "No Category")
-            embed.add_field(name=cog_name, value=" ".join(command_signatures), inline=False)
+    for cog, command in mapping.items():
+      filtered = await self.filter_commands(command, sort=True)
+      command_signatures = [self.get_command_signature(c) for c in filtered]
+      if command_signatures:
+        cog_name = getattr(cog, "qualified_name", "No Category")
+        embed.add_field(name=cog_name, value=" ".join(command_signatures), inline=False)
     await self.context.send(embed=embed)
 
     async def send_command_help(self, command):
