@@ -1,7 +1,10 @@
 import asyncpg, discord, os
+from dotenv import load_dotenv
 from discord.ext import commands, tasks
 from datetime import datetime
 from typing import Optional
+
+load_dotenv()
 
 class Help(commands.HelpCommand):
   def get_command_signature(self, command):
@@ -37,12 +40,10 @@ class Help(commands.HelpCommand):
       embed = discord.Embed(title=cog.qualified_name, description=cog.description)
       embed.add_field(name="Commands", value="\n".join(cog.get_commands()))
 
-
 #class DeleteButton(discord.Button):
 #  def __init__(self):
 #    self.style = discord.ButtonStyle.red()
 #    self.label = "Delete"
-
 
 class AloneBot(commands.AutoShardedBot):
   def __init__(self, *args, **kwargs):
@@ -76,13 +77,11 @@ class AloneBot(commands.AutoShardedBot):
   def botmsgs(self, msg):
     return msg.author == self.user
 
-
 class BlacklistedError(commands.CheckFailure):
   pass
 
 class MaintenanceError(commands.CheckFailure):
   pass
-
 
 def main():
   os.environ["JISHAKU_HIDE"] = "true"
