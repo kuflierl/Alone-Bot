@@ -49,7 +49,7 @@ class AloneBot(commands.AutoShardedBot):
   def __init__(self, *args, **kwargs):
     super().__init__(command_prefix=(os.getenv("prefix")), *args, **kwargs)
     self.token = os.getenv("token")
-    self.blacklist: dict[int, str] = {}
+    self.userblacklist: dict[int, str] = {}
     self.afk: dict[int, str] = {}
     self.maintenance = False
     self.maintenance_reason = ""
