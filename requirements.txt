@@ -7,3 +7,4 @@ waifuim.py
 psutil
 asyncio
 aiohttp
+python-dotenv
