@@ -5,9 +5,9 @@ from main import Help
 
 class Help(commands.Cog):
   def __init__(self, bot):
+    self._original_help_command = bot.help_command
     bot.help_command = HelpMe()
     bot.help_command_cog = self
-    self._original_help_command = bot.help_command
 
 class HelpMe(commands.HelpCommand):
   async def get_command_signature(self, command):
@@ -19,7 +19,7 @@ class HelpMe(commands.HelpCommand):
     embed.timestamp = datetime.utcnow()
     for cog, command in mapping.items():
       filtered = await self.filter_commands(command, sort=True)
-      command_signatures = [self.get_command_signature(c) for c in filtered]
+      command_signatures = [await self.get_command_signature(c) for c in filtered]
       if command_signatures:
         cog_name = getattr(cog, "qualified_name", "No Category")
         embed.add_field(name=cog_name, value=" ".join(command_signatures), inline=False)
@@ -38,7 +38,10 @@ class HelpMe(commands.HelpCommand):
     await self.context.reply(embed=embed, mention_author=False)
 
   async def send_group_help(self, group):
-    await self.context.reply("Work in progress.", mention_author=False)
+    embed = discord.Embed(title=group.root_parent)
+    for commands in group.walk_commands():
+      await embed.add_field(title=command.name, value=command.description)
+    await self.context.reply(embed=embed, mention_author=False)
      
   async def send_cog_help(self, cog):
     embed = discord.Embed(title=cog.qualified_name, description=cog.description)
