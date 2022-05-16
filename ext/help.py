@@ -38,7 +38,10 @@ class HelpMe(commands.HelpCommand):
     await self.context.reply(embed=embed, mention_author=False)
 
   async def send_group_help(self, group):
-    await self.context.reply("Work in progress.", mention_author=False)
+    embed = discord.Embed(title=group.root_parent)
+    for commands in group.walk_commands():
+      await embed.add_field(title=command.name, value=command.description)
+    await self.context.reply(embed=embed, mention_author=False)
      
   async def send_cog_help(self, cog):
     embed = discord.Embed(title=cog.qualified_name, description=cog.description)
