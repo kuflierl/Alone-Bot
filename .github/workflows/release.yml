@@ -63,7 +63,7 @@ jobs:
         API_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         COLOR: 65280
         TITLE: Bot Update to v${{ steps.vars.outputs.release_tag }}
-        DESCRIPTION: Alone Bot is updating to v${{ steps.vars.outputs.release_tag }}\n\nThe bot will be online in a moment.
+        DESCRIPTION: The bot is updating to v${{ steps.vars.outputs.release_tag }}\n\nThe bot will be online in a moment.
       run: |
         set -e
         trigger_Discord () { curl -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"embeds\":[{\"description\":\"$3\", \"title\":\"$2\", \"color\":$4}]}" $1; }

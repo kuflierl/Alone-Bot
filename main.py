@@ -56,6 +56,7 @@ class AloneBot(commands.AutoShardedBot):
     self.db = 0
     self.activity = discord.Game(os.getenv("discord_activity"))
     self.owner_ids = [int(i) for i in os.getenv("owners").split(",")]
+    self.name = os.getenv("bot_name")
     self.command_counter = 0
     self.launch_time = datetime.utcnow()
     self.support_server = os.getenv("support_server")
@@ -111,7 +112,7 @@ def main():
 
   @bot.check
   def blacklist(ctx):
-    if ctx.author.id not in bot.blacklist:
+    if ctx.author.id not in bot.userblacklist:
       return True
     else:
       raise BlacklistedError
