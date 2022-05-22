@@ -14,7 +14,7 @@ class Owner(commands.Cog):
     if self.bot.maintenance is False:
       await ctx.message.add_reaction("\U00002705")
       self.bot.maintenance = True
-      self.bot.maintenance = reason
+      self.bot.maintenance_reason = reason
       channel = self.bot.get_channel(907363405466333274)
       await channel.send("I am going on maintenance break, all commands will not work during the downtime.")
     else:
@@ -32,15 +32,15 @@ class Owner(commands.Cog):
     await ctx.reply(embed=self.bot.generate_embed("Blacklisted users", profile), mention_author=False)
 
   @blacklist.command()
-  async def add(self, ctx, id: discord.Member, reason: str = "No reason provided"):
+  async def add(self, ctx, user: discord.Member, *, reason: str = "No reason provided"):
     # db here
-    self.bot.userblacklist[id.id] = reason
+    self.bot.userblacklist[user.id] = reason
     await ctx.message.add_reaction("\U00002705")
 
   @blacklist.command()
-  async def remove(self, ctx, id: discord.Member):
+  async def remove(self, ctx, user: discord.Member):
     try:
-      self.userblacklist.pop(id.id)
+      self.userblacklist.pop(user.id)
     except KeyError:
       await ctx.message.add_reaction("\U0000274c")
       return await ctx.reply("That user isn't blacklisted!", mention_author=False)
@@ -83,16 +83,16 @@ class Owner(commands.Cog):
     await ctx.reply(arg, mention_author=False)
 
   @commands.command(aliases=["d", "delete"])
-  async def delmsg(self, ctx, id=None):
-    if not id:
+  async def delmsg(self, ctx, message_id=None):
+    if not message_id:
       await ctx.message.add_reaction("<:redTick:596576672149667840>")
       return await ctx.reply("You need to give me a message to delete.", delete_after=10, mention_author=False)
-    msg = await ctx.channel.fetch_message(id)
+    msg = get_partial_message(message_id)
     await msg.delete()
     await ctx.message.add_reaction("\U00002705")
 
   @commands.command()
-  async def nick(self, ctx, *, name=None):
+  async def nick(self, ctx, *, name: str = None):
     if not name:
       await ctx.me.edit(nick=None)
       await ctx.message.add_reaction("\U00002705")
@@ -105,11 +105,11 @@ class Owner(commands.Cog):
     await ctx.bot.close()
 
   @commands.command()
-  async def leave(self, ctx, id=None):
-    if not id:
+  async def leave(self, ctx, guild_id=None):
+    if not guild_id:
       await ctx.message.add_reaction("\U00002705")
       await ctx.guild.leave()
-    guild = await guild.fetch(id)
+    guild = await guild.fetch(guild_id)
     await guild.leave()
     await ctx.message.add_reaction("\U00002705")
 
