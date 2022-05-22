@@ -49,7 +49,7 @@ class HelpMe(commands.HelpCommand):
     await self.context.reply(embed=embed, mention_author=False)
 
 def cog_unload(self):
-  self.bot.help_command = Help()
+  self.bot.help_command = self._original_help_command
 
 def setup(bot):
   bot.add_cog(Help(bot))
