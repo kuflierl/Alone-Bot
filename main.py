@@ -88,50 +88,46 @@ class BlacklistedError(commands.CheckFailure):
 class MaintenanceError(commands.CheckFailure):
   pass
 
-def main():
-  os.environ["JISHAKU_HIDE"] = "true"
-  os.environ["JISHAKU_RETAIN"] = "true"
-  os.environ["JISHAKU_NO_UNDERSCORE"] = "true"
-  os.environ["JISHAKU_FORCE_PAGINATOR"] = "true"
-  os.environ["JISHAKU_NO_DM_TRACEBACK"] = "true"
+os.environ["JISHAKU_HIDE"] = "true"
+os.environ["JISHAKU_RETAIN"] = "true"
+os.environ["JISHAKU_NO_UNDERSCORE"] = "true"
+os.environ["JISHAKU_FORCE_PAGINATOR"] = "true"
+os.environ["JISHAKU_NO_DM_TRACEBACK"] = "true"
 
-  bot = AloneBot(intents=discord.Intents.all())
+bot = AloneBot(intents=discord.Intents.all())
 
-  bot.load_extension("jishaku")
-  initial_extensions = [
-        "ext.error",
-        "ext.events",
-        "ext.fun",
-        "ext.help",
-        "ext.moderation",
-        "ext.owner",
-        "ext.utility",
-  ]
-  for cog in initial_extensions:
-    bot.load_extension(cog)
+bot.load_extension("jishaku")
+initial_extensions = [
+  "ext.error",
+  "ext.events",
+  "ext.fun",
+  "ext.help",
+  "ext.moderation",
+  "ext.owner",
+  "ext.utility",
+]
+for cog in initial_extensions:
+  bot.load_extension(cog)
 
-  @bot.after_invoke
-  async def aftercount(ctx):
-    bot.command_counter += 1
+@bot.after_invoke
+async def aftercount(ctx):
+  bot.command_counter += 1
 
-  @bot.check
-  def blacklist(ctx):
-    if ctx.author.id not in bot.userblacklist:
+@bot.check
+def blacklist(ctx):
+  if ctx.author.id not in bot.userblacklist:
+    return True
+  else:
+    raise BlacklistedError
+
+@bot.check
+def maintenance(ctx):
+  if bot.maintenance is False:
+    return True
+  else:
+    if ctx.author.id in bot.ownerids:
       return True
     else:
-      raise BlacklistedError
+      raise MaintenanceError
 
-  @bot.check
-  def maintenance(ctx):
-    if bot.maintenance is False:
-      return True
-    else:
-      if ctx.author.id in bot.ownerids:
-        return True
-      else:
-        raise MaintenanceError
-
-  bot.run(bot.token)
-
-if __name__ == "__main__":
-  main()
+bot.run(bot.token)
