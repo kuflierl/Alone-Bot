@@ -70,7 +70,7 @@ class Events(commands.Cog):
         print(f"{format} | Connection Errored!\n{error}")
 
     @commands.Cog.listener()
-    async def on_message_edit(self, before, message):
+    async def on_message_edit(self, _, message):
         await self.bot.process_commands(message)
 
 
