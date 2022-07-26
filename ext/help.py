@@ -42,7 +42,7 @@ class HelpMe(commands.HelpCommand):
 
     async def send_error_message(self, error: Exception):
         embed = discord.Embed(title="Error", description=error, color=0xF02E2E)
-        await self.context.add_reaction(ctx.emoji.x)
+        await self.context.add_reaction(self.context.emoji.x)
         await self.context.reply(embed=embed)
 
     async def send_group_help(self, group):
