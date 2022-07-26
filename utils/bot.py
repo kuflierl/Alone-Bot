@@ -40,7 +40,7 @@ class AloneBot(commands.AutoShardedBot):
         self.user_prefix: dict[int, list] = {34937972103561218: [":pensivewiggle"]}
         self.guild_prefix: dict[int, str] = {}
         self.no_prefix: list = []
-        self.support_server: str = "WIP"
+        self.support_server: str = "https://discord.gg/cCvcQKxg6T"
         self.maintenance: bool = False
         self.maintenance_reason: str = ""
         self.cooldown = commands.CooldownMapping.from_cooldown(
