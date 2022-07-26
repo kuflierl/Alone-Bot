@@ -123,7 +123,7 @@ class Utility(commands.Cog):
   @commands.command()
   async def battery(self, ctx: commands.Context):
     battery = psutil.sensors_battery()
-    await ctx.reply(embed=discord.Embed(title="I am alive", description=f"{battery.percent}%\n{'Plugged In' if battery.power_plugged else 'Not Plugged In'}", color=0x88FF44 if battery.power_plugged else 0xFF2E2E))
+    await ctx.reply(embed=discord.Embed(title="Battery", description=f"{battery.percent}%\n{'Plugged In' if battery.power_plugged else 'Not Plugged In'}", color=0x88FF44 if battery.power_plugged else 0xFF2E2E))
 
   @commands.command()
   async def counter(self, ctx: commands.Context):
