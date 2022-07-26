@@ -29,6 +29,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools wheel black requests
           pip install -U -r requirements.txt
+
       - name: Setup node.js
         uses: actions/setup-node@v3
         with:
@@ -44,4 +45,4 @@ jobs:
       - name: Run black
         if: ${{ always() && steps.install-deps.outcome == 'success' }}
         run: |
-          black --check discord examples
+          black --check ext utils main.py
