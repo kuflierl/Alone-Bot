@@ -1,9 +1,7 @@
 import discord
 from discord.ext import commands
-from datetime import datetime
 from utils.bot import BlacklistedError, MaintenanceError
 from main import logger
-import logging
 
 
 class Error(commands.Cog):

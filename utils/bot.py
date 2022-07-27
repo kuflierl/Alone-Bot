@@ -1,6 +1,5 @@
 import discord, os, asyncpg
 from discord.ext import commands
-from typing import Optional
 from datetime import datetime
 from .context import AloneContext
 

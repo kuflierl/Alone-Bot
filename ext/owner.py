@@ -1,6 +1,5 @@
-import discord, os, sys
+import discord
 from discord.ext import commands
-from datetime import datetime
 
 
 class Owner(commands.Cog):
@@ -133,11 +132,6 @@ class Owner(commands.Cog):
             return await ctx.guild.leave()
         await ctx.message.add_reaction(ctx.emoji.check)
         await guild.leave()
-
-    @commands.command()
-    async def run_black(self, ctx):
-        os.system("black utils main.py ext notes.py")
-        await ctx.message.add_reaction(ctx.emoji.check)
 
     @commands.group(invoke_without_command=True)
     async def status(self, ctx: commands.Context):
