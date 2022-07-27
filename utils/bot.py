@@ -75,35 +75,38 @@ class AloneBot(commands.AutoShardedBot):
         for cog in initial_extensions:
             try:
                 extension = await self.load_extension(cog)
-                self.dispatch("cog_load", cog)
+                self.dispatch("cog_load", extension.qualified_name)
             except Exception as error:
-                print(f"{error}")
-                self.dispatch("cog_load_error", error, cog)
+                self.dispatch("cog_load_error", cog, error)
         try:
             self.db = await asyncpg.create_pool(os.environ["database"])
             self.dispatch("database_connect")
         except Exception as error:
             self.dispatch("database_connect_error", error)
 
-    def is_blacklisted(self, member):
+    async def is_blacklisted(self, member):
         return member in self.user_blacklist
 
-    def add_helper(self, member):
+    async def add_helper(self, member):
         self.helper_ids.append(member)
 
-    def remove_helper(self, member):
+    async def remove_helper(self, member):
         self.helper_ids.remove(member)
 
-    def is_helper(self, member):
+    async def is_helper(self, member):
         return member in self.helper_ids
 
-    def add_owner(self, member):
+    async def add_owner(self, member):
         self.owner_ids.append(member)
 
-    def remove_owner(self, member):
+    async def remove_owner(self, member):
         if member == 412734157819609090:
             return "Nice try :)"
         self.owner_ids.remove(member)
+    
+    async def format_print(self, text):
+        format = str(datetime.now().strftime("%x | %X") + f" | {text}")
+        return format
 
 class BlacklistedError(commands.CheckFailure):
     pass

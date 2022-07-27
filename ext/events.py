@@ -9,7 +9,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        format = str(datetime.now().strftime("%x | %X") + " | Alone Bot")
+        format = await self.bot.format_print("Alone Bot")
         print(f"{format} | Ready")
 
     @commands.Cog.listener()
@@ -51,28 +51,38 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_connect(self):
-        format = str(datetime.now().strftime("%x | %X") + " | Alone Bot")
+        format = await self.bot.format_print("Alone Bot")
         print(f"{format} | Connected")
 
     @commands.Cog.listener()
     async def on_disconnect(self):
-        format = str(datetime.now().strftime("%x | %X") + " | Alone Bot")
+        format = await self.bot.format_print("Alone Bot")
         print(f"{format} | Disconnected")
 
     @commands.Cog.listener()
     async def on_database_connect(self):
-        format = str(datetime.now().strftime("%x | %X") + " | AloneDB")
+        format = await self.bot.format_print("AloneDB")
         print(f"{format} | Connected")
 
     @commands.Cog.listener()
     async def on_database_connect_error(self, error):
-        format = str(datetime.now().strftime("%x | %X") + " | AloneDB")
+        format = await self.bot.format_print("AloneDB")
         print(f"{format} | Connection Errored!\n{error}")
 
     @commands.Cog.listener()
     async def on_message_edit(self, _, message):
         await self.bot.process_commands(message)
-
+    
+    @commands.Cog.listener()
+    async def on_cog_load(self, cog):
+        format = await self.bot.format_print(f"{cog}")
+        print(f"{format} | Loaded")
+    
+    @commands.Cog.listener()
+    async def on_cog_load_error(self, cog, error):
+        format = await self.bot.format_print(f"{cog}")
+        print(f"{format} | Loading Failed!\n{error}")
+    
 
 async def setup(bot):
     await bot.add_cog(Events(bot))
