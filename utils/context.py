@@ -1,24 +1,7 @@
 import discord
 from discord import PartialEmoji as get_emoji
 from discord.ext import commands
-
-
-class View(discord.ui.View):
-    def __init__(self, ctx):
-        super().__init__(timeout=None)
-        self.ctx = ctx
-
-    @discord.ui.button(
-        emoji="\U0001f5d1", style=discord.ButtonStyle.danger, label="Delete"
-    )
-    async def delete(self, interaction, button):
-        if interaction.user.id == self.ctx.author.id:
-            return await interaction.message.delete()
-        await interaction.response.send_message(
-            f"This command was ran by {self.ctx.author.name}, so you can't delete it!",
-            ephemeral=True,
-        )
-
+import .views
 
 class AloneContext(commands.Context):
     async def send(self, *args, button: bool = True, **kwargs):
@@ -35,7 +18,7 @@ class AloneContext(commands.Context):
                 embed.timestamp = discord.utils.utcnow()
 
         if button:
-          kwargs["view"] = View(self)
+          kwargs["view"] = views.DeleteView(self)
 
         return await super().send(*args, **kwargs)
 
