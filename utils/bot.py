@@ -6,12 +6,12 @@ from .context import AloneContext
 
 class AloneBot(commands.AutoShardedBot):
     async def get_prefix(self, message):
+        prefix = os.environ["prefix"]
         custom_user_prefix = self.user_prefix.get(message.author.id)
         if message.guild:
             custom_guild_prefix = self.guild_prefix.get(message.guild.id)
             if custom_guild_prefix:
                 prefix.append(custom_guild_prefix)
-        prefix = ["Alone", "alone"]
         if custom_user_prefix:
             for user_prefix in custom_user_prefix:
                 prefix.append(user_prefix)
@@ -29,6 +29,7 @@ class AloneBot(commands.AutoShardedBot):
             command_prefix=self.get_prefix,
             strip_after_prefix=True,
             case_insensitive=True,
+            intents=discord.Intents.all(),
             *args,
             **kwargs,
         )

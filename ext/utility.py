@@ -5,7 +5,7 @@ import time
 import inspect
 
 class Utility(commands.Cog):
-  def __init__(self, bot):
+  def __init__(self, bot: commands.Bot):
     self.bot = bot
 
   @commands.command()
@@ -208,5 +208,5 @@ class Utility(commands.Cog):
     await asyncio.sleep(2.5)
     self.bot.afk[ctx.author.id] = reason
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
   await bot.add_cog(Utility(bot))

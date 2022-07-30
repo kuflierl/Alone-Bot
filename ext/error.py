@@ -5,7 +5,7 @@ from main import logger
 
 
 class Error(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.Cog.listener()
@@ -27,7 +27,7 @@ class Error(commands.Cog):
                 embed=discord.Embed(
                     title="Error",
                     description="You do not have permission to run this command!",
-                    color=0xEA13C,
+                    color=0xF02E2E,
                 )
             )
         elif isinstance(error, commands.CommandOnCooldown):
@@ -49,5 +49,5 @@ class Error(commands.Cog):
             await ctx.reply(embed=embed)
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
     await bot.add_cog(Error(bot))

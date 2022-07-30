@@ -3,7 +3,7 @@ from discord.ext import commands
 
 
 class Moderation(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     async def cog_check(self, ctx: commands.Context):
@@ -15,9 +15,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_guild_permissions(manage_channels=True)
     @commands.has_guild_permissions(manage_channels=True)
     async def channel(self, ctx: commands.Context):
-        await ctx.reply(
-            f"Channel Name: {ctx.channel.name}\nID: {ctx.channel.id}\nCategory: {ctx.channel.category}"
-        )
+        await ctx.reply(discord.Embed(title="Channel Info", description=f"Channel Name: {ctx.channel.name}\nID: {ctx.channel.id}\nCategory: {ctx.channel.category}\nSlowmode: {ctx.channel.slowmode}s"))
 
     @channel.command()
     @commands.bot_has_guild_permissions(manage_channels=True)
@@ -90,5 +88,5 @@ class Moderation(commands.Cog):
         await ctx.send(f"{len(messages)} messages deleted.")
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
     await bot.add_cog(Moderation(bot))

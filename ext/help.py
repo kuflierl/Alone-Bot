@@ -4,7 +4,7 @@ from utils.help import Help
 
 
 class Help(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self._original_help_command = bot.help_command
         bot.help_command = HelpMe()
         bot.help_command_cog = self
@@ -69,5 +69,5 @@ async def cog_unload(self):
     self.bot.help_command = Help()
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
     await bot.add_cog(Help(bot))

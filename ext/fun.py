@@ -2,9 +2,6 @@ import discord, random, aiohttp, sr_api, asyncpraw, os
 from discord.ext import commands
 from waifuim import WaifuAioClient
 from datetime import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 async def urban(word: str):
@@ -20,15 +17,15 @@ srapi = sr_api.Client()
 hori = WaifuAioClient(session=aiohttp.ClientSession(), appname="Alone Bot")
 
 reddit = asyncpraw.Reddit(
-    client_id=os.getenv("client_id"),
-    client_secret=os.getenv("client_secret"),
-    user_agent=os.getenv("user_agent"),
-    username=os.getenv("username"),
+    client_id=os.environ["client_id"],
+    client_secret=os.environ["client_secret"],
+    user_agent=os.environ["user_agent"],
+    username=os.environ["username"],
 )
 
 
 class Fun(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.command(aliases=["define"])
@@ -88,5 +85,5 @@ class Fun(commands.Cog):
         await ctx.reply(embed=embed)
 
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
     await bot.add_cog(Fun(bot))
