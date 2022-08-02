@@ -3,11 +3,11 @@ import os
 from discord.ext import commands
 from utils.bot import AloneBot, BlacklistedError, MaintenanceError
 from dotenv import load_dotenv
+from utils.logger import logger
 
 load_dotenv()
 
-logger = logging.getLogger("discord")
-logger.setLevel(logging.INFO)
+
 handler = logging.FileHandler(filename="bot.log", encoding="utf-8", mode="w")
 handler.setFormatter(
     logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")

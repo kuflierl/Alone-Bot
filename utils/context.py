@@ -1,7 +1,7 @@
 import discord
 from discord import PartialEmoji as get_emoji
 from discord.ext import commands
-import .views
+import views
 
 class AloneContext(commands.Context):
     async def send(self, *args, button: bool = True, **kwargs):
