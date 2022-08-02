@@ -28,13 +28,17 @@ class IPC(commands.Cog):
         return user._to_minimal_user_json()
 
 async def cog_unload(bot):
-    bot.ipc = None
     format = self.bot.format_print("IPC")
-    print(f"{format} | Disconnected")
+    bot.ipc_online = True if bot.ipc else False
+    if bot.ipc:
+        bot.ipc = None
+        print(f"{format} | Disconnected")
+    print("{format} | Unloaded")
 
 async def cog_load(bot):
     if not hasattr(bot, "ipc"):
         bot.ipc = ipc.Server(self.bot, host="127.0.0.1", port=2300, secret_key=os.getenv("ipc_key"))
+        if not bot.ipc_online:
         bot.ipc.start(self)
 
 async def setup(bot):
