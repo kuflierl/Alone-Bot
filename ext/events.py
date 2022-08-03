@@ -82,6 +82,17 @@ class Events(commands.Cog):
         format = await self.bot.format_print(f"{cog}")
         print(f"{format} | Loading Failed!\n{error}")
     
+    @commands.Cog.listener()
+    async def on_ipc_ready(self):
+        format = self.bot.format_print("IPC")
+        print(f"{format} | Ready")
+        self.bot.ipc_online = True
+
+    
+    @commands.Cog.listener()
+    async def on_ipc_error(self, endpoint: str, error: IPCError):
+        logging.error(f"An error has occurred in the ipc", exc_info=error)
+    
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Events(bot))
