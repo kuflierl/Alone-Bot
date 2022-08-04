@@ -10,19 +10,21 @@ class Error(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error: Exception):
-        await ctx.message.add_reaction(ctx.emoji.x)
         if isinstance(error, commands.CommandNotFound):
             return
         elif isinstance(error, BlacklistedError):
+            await ctx.message.add_reaction(ctx.emoji.x)
             reason = self.bot.user_blacklist.get(ctx.author.id)
             await ctx.reply(
                 f"You have been blacklisted for {reason}. you may not appeal this blacklist. There still exists a chance I'll unban you, but it's not likely."
             )
         elif isinstance(error, MaintenanceError):
+            await ctx.message.add_reaction(ctx.emoji.x)
             await ctx.reply(
                 f"The bot is currently in maintenance mode for {self.bot.maintenance_reason}, please wait. If you have any issues, you can join my support server for help."
             )
         elif isinstance(error, commands.CheckFailure):
+            await ctx.message.add_reaction(ctx.emoji.x)
             await ctx.reply(
                 embed=discord.Embed(
                     title="Error",
@@ -31,10 +33,12 @@ class Error(commands.Cog):
                 )
             )
         elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.message.add_reaction(ctx.emoji.x)
             await ctx.reply(
                 f"You are on cooldown. Try again in {error.retry_after:.2f}s"
             )
         else:
+            await ctx.message.add_reaction(ctx.emoji.x)
             logger.error("An error occurred", exc_info=error)
             embed = discord.Embed(
                 title=f"Ignoring exception in {ctx.command}:",
