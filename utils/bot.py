@@ -33,7 +33,7 @@ class AloneBot(commands.AutoShardedBot):
             *args,
             **kwargs,
         )
-        self.name = "Alone Bot"
+        self.name = os.environ["name"]
         self.user_blacklist: dict[int, str] = {}
         self.guild_blacklist: list = []
         self.afk: dict[int, str] = {}
@@ -43,9 +43,9 @@ class AloneBot(commands.AutoShardedBot):
         self.support_server: str = "https://discord.gg/cCvcQKxg6T"
         self.maintenance: bool = False
         self.maintenance_reason: str = ""
-        self.cooldown = commands.CooldownMapping.from_cooldown(
-            1, 5, commands.BucketType.user
-        )
+        # self.cooldown = commands.CooldownMapping.from_cooldown(
+        #    1, 5, commands.BucketType.user
+        # )
         self.owner_ids: list = [412734157819609090]
         self.helper_ids: list = []
         self.command_counter: int = 0
