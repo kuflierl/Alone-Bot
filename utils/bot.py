@@ -9,7 +9,7 @@ load_dotenv()
 
 class AloneBot(commands.AutoShardedBot):
     async def get_prefix(self, message):
-        prefix = os.environ["prefix"]
+        prefix = ["Alone", "alone"]
         custom_user_prefix = self.user_prefix.get(message.author.id)
         if message.guild:
             custom_guild_prefix = self.guild_prefix.get(message.guild.id)
