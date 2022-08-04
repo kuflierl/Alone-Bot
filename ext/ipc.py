@@ -1,5 +1,9 @@
-import sys
+import sys, os
 import discord
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 from discord.ext import commands, ipc
 from discord.ext.ipc.server import route
