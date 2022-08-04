@@ -24,7 +24,7 @@ class Owner(commands.Cog):
 
     @commands.command()
     async def maintenance(self, ctx: commands.Context, *, reason="No reason provided."):
-        if self.bot.maintenance is False:
+        if self.bot.maintenance:
             await ctx.message.add_reaction(ctx.emoji.check)
             self.bot.maintenance = True
             self.bot.maintenance_reason = reason
@@ -32,7 +32,7 @@ class Owner(commands.Cog):
             return await channel.send(
                 "I am going on maintenance break, all commands will not work during the downtime."
             )
-        await ctx.reply("Maintenance break is over.")
+        await ctx.reply("Maintenance mode is now off.")
         self.bot.maintenance = False
         self.bot.maintenance_reason = ""
         channel = self.bot.get_channel(907363405466333274)
@@ -71,24 +71,22 @@ class Owner(commands.Cog):
         await ctx.message.add_reaction(ctx.emoji.check)
 
     @commands.command()
-    async def disable(self, ctx: commands.Context, command):
-        command = self.bot.get_command(command)
+    async def disable(self, ctx: commands.Context, command_name: str):
+        command = self.bot.get_command(command_name)
         if not command.enabled:
-            await ctx.message.add_reaction(bot.default_emoji("no"))
+            await ctx.message.add_reaction(ctx.emoji.x)
             return await ctx.reply("This command is already disabled!")
         command.enabled = False
-        await ctx.message.add_reaction(ctx.emoji.check)
-        await ctx.reply(f"Disabled {command}.")
+        await ctx.reply(f"Disabled {command_name}.")
 
     @commands.command()
-    async def enable(self, ctx: commands.Context, command):
-        command = self.bot.get_command(command)
+    async def enable(self, ctx: commands.Context, command_name: str):
+        command = self.bot.get_command(command_name)
         if command.enabled:
-            await ctx.message.add_reaction(bot.default_emoji("no"))
+            await ctx.message.add_reaction(ctx.emoji.x)
             return await ctx.reply("This command is already enabled!")
         command.enabled = True
-        await ctx.message.add_reaction(ctx.emoji.check)
-        await ctx.reply(f"Enabled {command}.")
+        await ctx.reply(f"Enabled {command_name}.")
 
     @commands.command()
     async def print(self, ctx: commands.Context, *, arg=""):
@@ -98,9 +96,8 @@ class Owner(commands.Cog):
     @commands.command()
     async def say(self, ctx: commands.Context, *, arg=None):
         if not arg:
-            await ctx.message.add_reaction(bot.default_emoji("no"))
+            await ctx.message.add_reaction(ctx.emoji.x)
             return await ctx.reply("You have to give me something to say.")
-        await ctx.message.add_reaction(ctx.emoji.check)
         await ctx.reply(arg)
 
     @commands.command(aliases=["d", "delete"])
@@ -125,6 +122,9 @@ class Owner(commands.Cog):
     @commands.command(hidden=True)
     async def guild_leave(self, ctx: commands.Context, guild: discord.Guild = None):
         important_guilds = [774561547930304536, 867919029447295006, 336642139381301249]
+        if guild:
+            if guild.id in important_guilds:
+                return await ctx.message.add_reaction(ctx.emoji.x)
         if ctx.guild.id in important_guilds:
             return await ctx.message.add_reaction(ctx.emoji.x)
         if not guild:

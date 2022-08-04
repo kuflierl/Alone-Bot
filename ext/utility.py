@@ -205,7 +205,7 @@ class Utility(commands.Cog):
       return await ctx.reply("You are already afk!")
     await ctx.message.add_reaction(ctx.emoji.check)
     await ctx.reply(f"**AFK**\nYou are now afk for {reason}.")
-    await asyncio.sleep(2.5)
+    await asyncio.sleep(0.1)
     self.bot.afk[ctx.author.id] = reason
 
 async def setup(bot: commands.Bot):

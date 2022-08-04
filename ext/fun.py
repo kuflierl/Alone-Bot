@@ -2,6 +2,9 @@ import discord, random, aiohttp, sr_api, asyncpraw, os
 from discord.ext import commands
 from waifuim import WaifuAioClient
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 async def urban(word: str):

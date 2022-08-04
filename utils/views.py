@@ -7,7 +7,7 @@ class DeleteView(discord.ui.View):
         self.ctx = ctx
 
     @discord.ui.button(
-        emoji="\U0001f5d1", style=discord.ButtonStyle.danger, label="Delete"
+        emoji="\U0001f5d1", style=discord.ButtonStyle.danger, label="Delete", custom_id="delete"
     )
     async def delete(self, interaction, button):
         if interaction.user.id == self.ctx.author.id:

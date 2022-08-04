@@ -3,7 +3,7 @@ from discord.ext import commands
 
 
 class Permissions(commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot):
         self.bot = bot
 
     async def cog_check(self, ctx: commands.Context):
@@ -33,5 +33,5 @@ class Permissions(commands.Cog):
         await ctx.message.add_reaction(ctx.emoji.check)
 
 
-async def setup(bot: commands.Bot):
+async def setup(bot):
     await bot.add_cog(Permissions(bot))
