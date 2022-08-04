@@ -67,6 +67,7 @@ class AloneBot(commands.AutoShardedBot):
             "ext.error",
             "ext.fun",
             "ext.help",
+            "ext.ipc",
             "ext.moderation",
             "ext.owner",
             "ext.utility",
