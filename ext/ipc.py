@@ -1,4 +1,3 @@
-from _typeshed import TraceFunction
 import sys
 import discord
 
