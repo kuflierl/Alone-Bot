@@ -76,7 +76,7 @@ class AloneBot(commands.AutoShardedBot):
         for cog in initial_extensions:
             try:
                 extension = await self.load_extension(cog)
-                self.dispatch("cog_load", extension.qualified_name)
+                self.dispatch("cog_load", cog)
             except Exception as error:
                 self.dispatch("cog_load_error", cog, error)
         #try:
