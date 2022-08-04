@@ -46,11 +46,10 @@ class AloneBot(commands.AutoShardedBot):
         # self.cooldown = commands.CooldownMapping.from_cooldown(
         #    1, 5, commands.BucketType.user
         # )
-        self.owner_ids: list = [412734157819609090]
-        self.helper_ids: list = []
+        self.owner_ids: list = os.environ["owner_ids"]
+        self.helper_ids: list = os.environ["helper_ids"]
         self.command_counter: int = 0
         self.launch_time: datetime.datetime = datetime.utcnow()
-        self.activity = discord.Game("with my Source Code")
 
     async def get_context(self, message, *, cls=AloneContext):
         return await super().get_context(message, cls=cls)
