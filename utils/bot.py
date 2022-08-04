@@ -29,7 +29,6 @@ class AloneBot(commands.AutoShardedBot):
             command_prefix=self.get_prefix,
             strip_after_prefix=True,
             case_insensitive=True,
-            intents=discord.Intents.all(),
             *args,
             **kwargs,
         )
