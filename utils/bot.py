@@ -48,8 +48,8 @@ class AloneBot(commands.AutoShardedBot):
         # self.cooldown = commands.CooldownMapping.from_cooldown(
         #    1, 5, commands.BucketType.user
         # )
-        self.owner_ids: list = os.environ["owner_ids"]
-        self.helper_ids: list = os.environ["helper_ids"]
+        self.owner_ids: list = [int(os.getenv("owner_ids"))]
+        self.helper_ids: list = [int(os.getenv("helper_ids"))]
         self.command_counter: int = 0
         self.launch_time: datetime.datetime = datetime.utcnow()
 
