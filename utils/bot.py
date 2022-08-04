@@ -82,21 +82,25 @@ class AloneBot(commands.AutoShardedBot):
         #    self.dispatch("database_connect")
         #except Exception as error:
         #    self.dispatch("database_connect_error", error)
+
         #try:
         #    user_prefix_db = self.db.fetch("SELECT * FROM users WHERE prefix IS NOT NULL")
-        #    guild_prefix_db = self.db.fetch("SELECT * FROM guilds WHERE prefix IS NOT NULL")
         #    for user in user_prefix_db:
         #        user_id = user[user_id]
         #        prefix = user[prefix]
         #        self.user_prefix[user_id] = prefix
         #    self.dispatch("user_prefix_ready")
+        #except Exception as error:
+        #    self.dispatch("prefix_error", error)
+
+        #try:
         #    for guild in guild_prefix_db:
         #        guild_id = guild["guild_id"]
         #        prefix = guild[prefix]
         #        self.guild_prefix[guild_id] = prefix
         #    self.dispatch("guild_prefix_ready")
         #except Exception as error:
-        #    self.dispatch("prefix_error",  error)
+        #    self.dispatch("prefix_error", error)
 
     async def is_blacklisted(self, member):
         return member in self.user_blacklist

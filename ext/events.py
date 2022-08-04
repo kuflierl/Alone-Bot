@@ -87,12 +87,20 @@ class Events(commands.Cog):
         format = self.bot.format_print("IPC")
         print(f"{format} | Ready")
         self.bot.ipc_online = True
-
     
     @commands.Cog.listener()
     async def on_ipc_error(self, endpoint: str, error: IPCError):
-        logging.error(f"An error has occurred in the ipc", exc_info=error)
+        channel = self.bot.get_channel(1004558613395820645)
+        await channel.send(embed=discord.Embed(
+            title=f"Ignoring exception in IPC:",
+            description=f"```py\n{error}```",
+            color=0xF02E2E,
+            ))
     
+    @commands.Cog.listener()
+    async def on_prefix_error(self, ctx: commands.Context, error: Exception):
+        format = self.bot.format_print("AloneDB")
+        print(f"{format} | Prefix Error\n")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Events(bot))
