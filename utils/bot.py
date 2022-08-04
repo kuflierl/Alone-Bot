@@ -125,7 +125,7 @@ class AloneBot(commands.AutoShardedBot):
             return "Nice try :)"
         self.owner_ids.remove(member)
     
-    async def format_print(self, text):
+    def format_print(self, text):
         format = str(datetime.now().strftime("%x | %X") + f" | {text}")
         return format
 
