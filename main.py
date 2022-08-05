@@ -48,3 +48,6 @@ async def main():
             except Exception as error:
                 print(f"{format} | Errored!\n{error}")
         bot.start(os.getenv("token"))
+
+if __name__ == "__main__":
+    asyncio.run(main())
