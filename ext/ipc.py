@@ -12,14 +12,6 @@ from discord.ext.ipc.errors import IPCError
 class IPC(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        if not hasattr(bot, "ipc"):
-            format = self.bot.format_print("IPC")
-            try:
-                bot.ipc = ipc.Server(self.bot, host="127.0.0.1", port=2300, secret_key=os.getenv("ipc_key"))
-                bot.ipc.start(self)
-                print(f"{format} | Connected")
-            except Exception as error:
-                print(f"{format} | Errored!\n{error}")
     
     @route()
     async def get_user_data(self, data):

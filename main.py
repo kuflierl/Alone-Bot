@@ -12,6 +12,7 @@ handler = logging.FileHandler(filename="bot.log", encoding="utf-8", mode="w")
 handler.setFormatter(
     logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
 )
+logger.add_handler(handler)
 
 bot = AloneBot(intents=discord.Intents.all())
 
@@ -36,6 +37,14 @@ async def maintenance(ctx: commands.Context):
         return True
     raise MaintenanceError
 
-
-if __name__ == "__main__":
-    bot.run(os.getenv("token"), log_handler=handler)
+async def main():
+    async with bot:
+        if not hasattr(bot, "ipc"):
+            format = self.bot.format_print("IPC")
+            try:
+                bot.ipc = ipc.Server(self.bot, host="127.0.0.1", port=2300, secret_key=os.getenv("ipc_key"))
+                bot.ipc.start(self)
+                print(f"{format} | Connected")
+            except Exception as error:
+                print(f"{format} | Errored!\n{error}")
+        bot.start(os.getenv("token"))
