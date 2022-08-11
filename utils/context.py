@@ -23,14 +23,13 @@ class AloneContext(commands.Context):
         return await super().send(*args, **kwargs)
 
     async def reply(self, *args, **kwargs):
-        if not kwargs.get("mention_author"):
-            kwargs["mention_author"] = False
+        kwargs["mention_author"] = kwargs.get("mention_author", False)
 
         return await super().reply(*args, **kwargs)
-    
+
     class Emoji:
-      x = get_emoji(name="redTick", id="895688440568508518")
-      check = get_emoji(name="greenTick", id="895688440690147370")
-      slash = get_emoji(name="greyTick", id="895688440690114560")
-    
+        x = get_emoji(name="redTick", id="895688440568508518")
+        check = get_emoji(name="greenTick", id="895688440690147370")
+        slash = get_emoji(name="greyTick", id="895688440690114560")
+
     emoji = Emoji()

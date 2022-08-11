@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from utils.bot import BlacklistedError, MaintenanceError
-from main import logger
+from utils.logger import logger
 
 
 class Error(commands.Cog):

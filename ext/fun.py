@@ -1,14 +1,11 @@
-import discord, random, aiohttp, sr_api, asyncpraw, os
+import discord, random, sr_api, asyncpraw, os, aiohttp
 from discord.ext import commands
 from waifuim import WaifuAioClient
 from datetime import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 async def urban(word: str):
-    async with aiohttp.ClientSession() as session:
+    async with bot.session as session:
         async with session.get(
             f"https://api.urbandictionary.com/v0/define?term={word}"
         ) as word:

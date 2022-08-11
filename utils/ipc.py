@@ -13,9 +13,11 @@ IPC = Client(
     secret_key=os.getenv("ipc_key"),
 )
 
+
 @app.route('/')
 async def main():
     return await app.ipc.request("get_user_data", user_id=412734157819609090)
+
 
 if __name__ == '__main__':
     loop = asyncio.new_event_loop()

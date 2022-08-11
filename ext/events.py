@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+from discord.ext.ipc import IPCError
 
 
 class Events(commands.Cog):
@@ -30,7 +31,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if message.content == f"<@{self.bot.user.id}>" and not message.author.bot:
-            await message.reply("Hello, you just pinged me.")
+            await message.reply("Hello, I'm Alone Bot, my prefix is alone.")
 
     @commands.Cog.listener("on_message")
     async def is_afk_mention(self, message: discord.Message):
@@ -59,48 +60,41 @@ class Events(commands.Cog):
         print(f"{format} | Disconnected")
 
     @commands.Cog.listener()
-    async def on_database_connect(self):
-        format = self.bot.format_print("AloneDB")
-        print(f"{format} | Connected")
-
-    @commands.Cog.listener()
-    async def on_database_connect_error(self, error):
-        format = self.bot.format_print("AloneDB")
-        print(f"{format} | Connection Errored!\n{error}")
-
-    @commands.Cog.listener()
     async def on_message_edit(self, _, message):
         await self.bot.process_commands(message)
-    
+
     @commands.Cog.listener()
     async def on_cog_load(self, cog):
         format = self.bot.format_print(f"{cog}")
         print(f"{format} | Loaded")
-    
+
     @commands.Cog.listener()
     async def on_cog_load_error(self, cog, error):
         format = self.bot.format_print(f"{cog}")
         print(f"{format} | Loading Failed!\n{error}")
-    
+
     @commands.Cog.listener()
     async def on_ipc_ready(self):
         format = self.bot.format_print("IPC")
         print(f"{format} | Ready")
         self.bot.ipc_online = True
-    
+
     @commands.Cog.listener()
     async def on_ipc_error(self, endpoint: str, error: IPCError):
         channel = self.bot.get_channel(1004558613395820645)
-        await channel.send(embed=discord.Embed(
-            title=f"Ignoring exception in IPC:",
-            description=f"```py\n{error}```",
-            color=0xF02E2E,
-            ))
-    
+        await channel.send(
+            embed=discord.Embed(
+                title=f"Ignoring exception in IPC:",
+                description=f"```py\n{error}```",
+                color=0xF02E2E,
+            )
+        )
+
     @commands.Cog.listener()
     async def on_prefix_error(self, ctx: commands.Context, error: Exception):
         format = self.bot.format_print("AloneDB")
-        print(f"{format} | Prefix Error\n")
+        print(f"{format} | Prefix Error\n{error}")
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Events(bot))
