@@ -48,6 +48,7 @@ async def main():
                 )
                 bot.ipc.start()
                 print(f"{format} | Connected")
+                bot.dispatch("ipc_connect")
             except Exception as error:
                 print(f"{format} | Errored!\n{error}")
         if not hasattr(bot, "db"):

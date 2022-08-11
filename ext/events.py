@@ -74,6 +74,11 @@ class Events(commands.Cog):
         print(f"{format} | Loading Failed!\n{error}")
 
     @commands.Cog.listener()
+    async def on_ipc_connect(self):
+        channel = self.bot.get_channel(1004558613395820645)
+        await channel.send("\U00002705 | IPC is Online!")
+    
+    @commands.Cog.listener()
     async def on_ipc_ready(self):
         format = self.bot.format_print("IPC")
         print(f"{format} | Ready")
