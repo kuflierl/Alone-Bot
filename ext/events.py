@@ -10,7 +10,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         format = self.bot.format_print("Alone Bot")
-        print(f"{format} | Ready")
+        print(f"{format} | Ready\nID: {self.bot.user.id}\nName: {self.bot.name}\nUsers: {len(self.bot.users)}\nGuilds: {len(self.bot.guilds)}Support Guild:{self.bot.support_server}")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild):
