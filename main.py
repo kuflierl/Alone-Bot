@@ -39,7 +39,7 @@ async def maintenance(ctx: commands.Context):
 
 
 async def main():
-    async with bot:
+    async with asyncpg.create_pool(os.environ["database"]) as bot.db:
         if not hasattr(bot, "ipc"):
             format = bot.format_print("IPC")
             try:
@@ -51,14 +51,6 @@ async def main():
                 bot.dispatch("ipc_connect")
             except Exception as error:
                 print(f"{format} | Errored!\n{error}")
-        if not hasattr(bot, "db"):
-            try:
-                self.db = await asyncpg.create_pool(os.environ["database"])
-                format = bot.format_print("AloneDB")
-                print(f"{format} | Connected")
-            except Exception as error:
-                format = bot.format_print("AloneDB")
-                print(f"{format} | Connection Errored!\n{error}")
         await bot.start(os.getenv("token"))
 
 if __name__ == "__main__":
