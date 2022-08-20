@@ -35,6 +35,7 @@ class AloneBot(commands.AutoShardedBot):
         self.user_blacklist: dict[int, str] = {}
         self.guild_blacklist: list = []
         self.afk: dict[int, str] = {}
+        self.todo: dict[int, dict[int, str]] = {}
         self.user_prefix: dict[int, list] = {34937972103561218: [":pensivewiggle"]}
         self.guild_prefix: dict[int, str] = {}
         self.no_prefix: list = []

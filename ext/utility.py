@@ -71,7 +71,7 @@ class Utility(commands.Cog):
             prefix_list = []
             prefix_list.append(prefix)
             self.bot.user_prefix[ctx.author.id] = prefix_list
-        await ctx.message.add_reaction(ctx.emoji.check)
+        await ctx.message.add_reaction(ctx.emoji.check) #todo
 
     @prefix.command()
     async def remove(self, ctx: commands.Context, prefix: str = None):
@@ -102,6 +102,22 @@ class Utility(commands.Cog):
             return await ctx.reply("That's not a valid command!")
         source = inspect.getsource(command.callback)
         await ctx.reply(f"```py\n{source}```")
+
+    @commands.group(invoke_without_command=True)
+    async def todo(self, ctx: commands.Context):
+        task_list = ""
+        _todo = self.bot.todo.get(ctx.author.id)
+        if not _todo:
+            return await ctx.reply("You don't have a todo list!")
+        for task_number in _todo:
+            task = _todo.get(task_number)
+            task_list += f"{task_number}: {task}\n"
+        await ctx.reply(embed=discord.Embed(title="Todo", description=task_list))
+    
+    @todo.command()
+    async def add(self, ctx: commands.Context, *, task: str):
+        # todo
+        return
 
     @commands.command()
     async def invite(self, ctx: commands.Context):
