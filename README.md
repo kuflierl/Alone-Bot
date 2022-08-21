@@ -1,9 +1,4 @@
-# Alone-Bot
+# Lonely-Bot
 
-Hey, welcome to my repo! In this repo is every piece of code that makes who I am.
-If you have any questions, join my support server!
-
-Big shoutout to [kuflierl](https://github.com/kuflierl/), [Leo](https://github.com/leoCx1000/), [le ducki3](https://github.com/du-cki) and blanket for helping with my code!
-
-Note:
-If you are going to fork this project please make sure to credit the original source, [this repo](https://github.com/Alone-Bot/Alone-Bot).
+This is a fork of [Alone-Bot](https://github.com/Alone-Bot/Alone-Bot), a bot of a friend of mine https://github.com/NightSlasher35.
+If you have any questions, join his or my support server!
