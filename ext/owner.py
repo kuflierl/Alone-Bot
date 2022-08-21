@@ -1,4 +1,4 @@
-import discord
+import discord, os
 from discord.ext import commands
 
 
@@ -13,14 +13,20 @@ class Owner(commands.Cog):
             return True
         return False
 
-    @commands.command()
-    async def botinfo(self, ctx: commands.Context):
-        await ctx.reply(
-            embed=discord.Embed(
-                title="Bot Info",
-                description=f"`{len(self.bot.guilds)}` guilds\n`{len(self.bot.users)}` users",
-            )
-        )
+  @commands.command()
+  async def maintenance(self, ctx, *, reason="No reason provided."):
+    if self.bot.maintenance is False:
+      await ctx.message.add_reaction("\U00002705")
+      self.bot.maintenance = True
+      self.bot.maintenance = reason
+      channel = self.bot.get_channel(int(os.getenv("maintenance_announcement_channel")))
+      await channel.send("I am going on maintenance break, all commands will not work during the downtime.")
+    else:
+      await ctx.reply("Maintenance break is over.", mention_author=False)
+      channel = self.bot.get_channel(int(os.getenv("maintenance_announcement_channel")))
+      await channel.send("The maintenance break is over. You can use me again.")
+      self.bot.maintenance = False
+      self.bot.maintenance_reason = ""
 
     @commands.command()
     async def maintenance(self, ctx: commands.Context, *, reason="No reason provided."):

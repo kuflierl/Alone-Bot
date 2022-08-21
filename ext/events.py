@@ -1,27 +1,30 @@
 from discord.ext import commands
 import discord
-from discord.ext.ipc import IPCError
-
+from datetime import datetime
+import asyncio
+import os
 
 class Events(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        format = self.bot.format_print("Alone Bot")
-        print(f"{format} | Ready\nID: {self.bot.user.id}\nName: {self.bot.name}\nUsers: {len(self.bot.users)}\nGuilds: {len(self.bot.guilds)}\nSupport Guild:{self.bot.support_server}")
+  @commands.Cog.listener()
+  async def on_guild_join(self, guild):
+    channel = self.bot.get_channel(int(os.getenv("guild_logs_channel")))
+    bots = sum(m.bot for m in guild.members)
+    joinembed = discord.Embed(title="I joined a new guild!", description=f"Owner: {guild.owner}\nName: {guild.name}\nMembers: {guild.member_count}\nBots: {bots}\nNitro Tier: {guild.premium_tier}", color=discord.Color(int("5fad68", 16)))
+    joinembed.set_footer(text="Alone Bot", icon_url=guild.icon_url)
+    await channel.send(embed=joinembed)
 
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild: discord.Guild):
-        channel = self.bot.get_channel(906682479199531051)
-        bots = sum(m.bot for m in guild.members)
-        embed = discord.Embed(
-            title="I joined a new guild!",
-            description=f"Owner: {guild.owner}\nName: {guild.name}\nMembers: {guild.member_count}\nBots: {bots}\nNitro Tier: {guild.premium_tier}",
-            color=0x5FAD68,
-        )
-        await channel.send(embed=embed)
+  @commands.Cog.listener()
+  async def on_guild_leave(self, guild):
+    channel = self.bot.get_channel(int(os.getenv("guild_logs_channel")))
+    await channel.send(f"I got kicked from {guild.name}.")
+
+  @commands.Cog.listener()
+  async def on_command(self, ctx):
+    channel = self.bot.get_channel(int(os.getenv("command_logs_channel")))
+    await channel.send(f"{ctx.command} was used by {ctx.author} in {ctx.guild}.")
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild: discord.Guild):
@@ -77,7 +80,7 @@ class Events(commands.Cog):
     async def on_ipc_connect(self):
         channel = self.bot.get_channel(1004558613395820645)
         await channel.send("\U00002705 | IPC is Online!")
-    
+
     @commands.Cog.listener()
     async def on_ipc_ready(self):
         format = self.bot.format_print("IPC")
