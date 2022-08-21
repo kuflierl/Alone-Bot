@@ -8,3 +8,4 @@ psutil
 asyncio
 aiohttp
 python-dotenv
+better-ipc
