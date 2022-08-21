@@ -44,7 +44,7 @@ async def main():
             format = bot.format_print("IPC")
             try:
                 bot.ipc = ipc.Server(
-                    bot, host="127.0.0.1", port=2300, secret_key=os.getenv("ipc_key")
+                    bot, host="127.0.0.1", secret_key=os.getenv("ipc_key")
                 )
                 bot.ipc.start()
                 print(f"{format} | Connected")

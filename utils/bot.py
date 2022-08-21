@@ -17,7 +17,6 @@ class AloneBot(commands.AutoShardedBot):
         if (
             not message.guild
             or message.author.id in self.no_prefix
-            or self.is_helper(message.author.id)
             or await self.is_owner(message.author)
         ):
             prefix.append("")
