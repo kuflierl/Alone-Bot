@@ -1,4 +1,4 @@
-import discord, random, sr_api, asyncpraw, os, aiohttp
+import discord, random, sr_api, asyncpraw, os, aiohttp, base64
 from discord.ext import commands
 from waifuim import WaifuAioClient
 from datetime import datetime
@@ -37,10 +37,8 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def token(self, ctx: commands.Context):
-        time = await srapi.encode_base64(
-            str(int(datetime.utcnow().timestamp()) + 1923840000)
-        )
-        encoded_id = await srapi.encode_base64(str(ctx.author.id))
+        time = base64.b64encode(str(int(datetime.utcnow().timestamp()) + 1923840000).encode("utf-8")).decode()
+        encoded_id = base64.b64encode(str(ctx.author.id).encode("utf-8")).decode()
         keys = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
         enc = "".join((random.choice(keys) for i in range(27)))
         await ctx.reply(
