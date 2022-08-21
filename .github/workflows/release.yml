@@ -1,0 +1,73 @@
+# This workflow pushes changes to production.
+# By kuflierl with ❤️
+name: Release and Push
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  actions: read
+  checks: write
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Get some info
+      id: vars
+      run: |
+        base_version=$(cat app.properties | grep "BASE_VERSION" | cut -d '=' -f 2)
+        build_number_unpadded=$(($(git tag | grep $base_version | wc -l) + 1))
+        build_number=$(echo -n 0000$build_number_unpadded | tail -c 4)
+        release_tag="$base_version-$build_number"
+        echo "release tag: $release_tag"
+        echo "::set-output name=base_version::$base_version"
+        echo "::set-output name=build_number::$build_number"
+        echo "::set-output name=release_tag::$release_tag"
+
+    - name: Create Release
+      id: release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.vars.outputs.release_tag }}
+        name: Automatic Release ${{ steps.vars.outputs.release_tag }}
+        body: |
+          ${{ github.event.head_commit.message }}
+        draft: false
+        prerelease: false
+
+    - name: Trigger Update api
+      id: api_trigger
+      env:
+        API_URL: ${{ secrets.UPDATE_URL }}
+        API_SECRET: ${{ secrets.UPDATE_TOKEN }}
+      run: |
+        set -e
+        trigger_API () { curl --silent --show-error --fail -H "auth: $2" "$1"; }
+        if [ -n "$API_URL" ] && [ -n "$API_SECRET" ]; then
+        retries=3; while ((retries > 0)); do trigger_API "$API_URL" "$API_SECRET" && break; echo "Error, retrying!"; sleep 5; let "--retries"
+        done; if ((retries == 0)); then echo "Failed!" exit 1; fi
+        else echo "API information is missing, not triggering!"; fi
+
+    - name: Trigger Discord api
+      id: discord_api_trigger
+      env:
+        API_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        COLOR: 65280
+        TITLE: Bot Update to v${{ steps.vars.outputs.release_tag }}
+        DESCRIPTION: The bot is updating to v${{ steps.vars.outputs.release_tag }}\n\nThe bot will be online in a moment.
+      run: |
+        set -e
+        trigger_Discord () { curl -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"embeds\":[{\"description\":\"$3\", \"title\":\"$2\", \"color\":$4}]}" $1; }
+        if [ -n "$DISCORD_WEBHOOK_URL" ]; then
+        retries=3; while ((retries > 0)); do trigger_Discord "$API_URL" "$TITLE" "$DESCRIPTION" "$COLOR" && break; echo "Error, retrying!"; sleep 35 let "--retries"
+        done; if ((retries == 0)); then echo "Failed!" exit 1; fi
+        else echo "API information is missing, not triggering!"; fi
