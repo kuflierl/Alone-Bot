@@ -210,7 +210,7 @@ class Utility(commands.Cog):
         if not member:
             member = ctx.author
         embed = discord.Embed(title=f"{member}'s avatar")
-        embed.set_image(url=member.avatar_url)
+        embed.set_image(url=member.avatar.url)
         await ctx.reply(embed=embed)
 
     @commands.command(aliases=["ui", "user_info", "user info"])
