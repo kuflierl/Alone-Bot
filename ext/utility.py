@@ -110,6 +110,9 @@ class Utility(commands.Cog):
     @todo.command()
     async def add(self, ctx: commands.Context, *, task: str):
         _todo = self.bot.todo.get(ctx.author.id)
+        if not _todo:
+            self.bot.todo[ctx.author.id][1] = task
+            return await ctx.message.add_reaction(ctx.emoji.x)
         task_number = len(self.bot.todo.get(ctx.author.id)) + 1
         self.bot.todo[ctx.author.id][task_number] = task
         await ctx.message.add_reaction(ctx.emoji.x)
@@ -117,10 +120,12 @@ class Utility(commands.Cog):
     @todo.command(aliases=["delete", "erase"])
     async def remove(self, ctx: commands.Context, task_number: int):
         _todo = self.bot.todo.get(ctx.author.id)
+        if not _todo:
+            return await ctx.reply("You don't have any tasks!")
         try:
             _todo.pop(task_number)
             await ctx.message.add_reaction(ctx.emoji.x)
-        except Exception as error:
+        except KeyError:
             await ctx.reply("That isn't a valid task!")
 
     @commands.command()
