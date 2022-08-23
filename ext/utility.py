@@ -107,8 +107,8 @@ class Utility(commands.Cog):
             task_list += f"**__{task_number}__**: **{task}**\n"
         await ctx.reply(embed=discord.Embed(title="Todo", description=task_list))
     
-    @todo.command()
-    async def add(self, ctx: commands.Context, *, task: str):
+    @todo.command(aliases=["add"])
+    async def _add(self, ctx: commands.Context, *, task: str):
         _todo = self.bot.todo.get(ctx.author.id)
         if not _todo:
             self.bot.todo[ctx.author.id] = {}
@@ -116,8 +116,8 @@ class Utility(commands.Cog):
         self.bot.todo[ctx.author.id][task_number] = task
         await ctx.message.add_reaction(ctx.emoji.x)
     
-    @todo.command(aliases=["delete", "erase"])
-    async def remove(self, ctx: commands.Context, task_number: int):
+    @todo.command(aliases=["delete", "erase", "remove"])
+    async def _remove(self, ctx: commands.Context, task_number: int):
         _todo = self.bot.todo.get(ctx.author.id)
         if not _todo:
             return await ctx.reply("You don't have any tasks!")
