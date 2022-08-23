@@ -4,7 +4,6 @@ from discord.ext import commands
 import time
 import inspect
 
-
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -38,13 +37,10 @@ class Utility(commands.Cog):
     @prefix.command()
     @commands.has_guild_permissions(manage_guild=True)
     async def guild(self, ctx: commands.Context, *, prefix: str):
-        banned_prefixes = ["!", "?", "dbb.", "dba.", "db.", "-"]
         if prefix == "remove":
             self.bot.guild_prefix.pop(ctx.guild.id)
             await ctx.message.add_reaction(ctx.emoji.check)
             return await ctx.reply("Custom prefix for this guild has been cleared.")
-        if prefix in banned_prefixes:
-            return await ctx.message.add_reaction(ctx.emoji.x)
         self.bot.guild_prefix[ctx.guild.id] = prefix
         await ctx.message.add_reaction(ctx.emoji.check)
 
@@ -58,9 +54,6 @@ class Utility(commands.Cog):
 
     @prefix.command()
     async def add(self, ctx: commands.Context, *, prefix: str):
-        banned_prefixes = ["!", "?", "dbb.", "dba.", "db.", "-"]
-        if prefix in banned_prefixes:
-            return await ctx.message.add_reaction(ctx.emoji.x)
         if len(prefix) >= 15:
             return await ctx.reply(
                 "Your prefix can't be longer than 15 characters, sorry!"
