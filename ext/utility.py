@@ -111,8 +111,7 @@ class Utility(commands.Cog):
     async def add(self, ctx: commands.Context, *, task: str):
         _todo = self.bot.todo.get(ctx.author.id)
         if not _todo:
-            self.bot.todo[ctx.author.id][1] = task
-            return await ctx.message.add_reaction(ctx.emoji.x)
+            self.bot.todo[ctx.author.id] = {}
         task_number = len(self.bot.todo.get(ctx.author.id)) + 1
         self.bot.todo[ctx.author.id][task_number] = task
         await ctx.message.add_reaction(ctx.emoji.x)
