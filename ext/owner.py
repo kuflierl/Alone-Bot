@@ -24,7 +24,7 @@ class Owner(commands.Cog):
 
     @commands.command()
     async def maintenance(self, ctx: commands.Context, *, reason="No reason provided."):
-        if self.bot.maintenance:
+        if not self.bot.maintenance:
             await ctx.message.add_reaction(ctx.emoji.check)
             self.bot.maintenance = True
             self.bot.maintenance_reason = reason
