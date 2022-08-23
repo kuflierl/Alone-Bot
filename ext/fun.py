@@ -58,7 +58,7 @@ class Fun(commands.Cog):
         pp = "".join("=" * ppsize)
         await ctx.reply(
             embed=discord.Embed(
-                title="{member}'s pp", description=f"8{pp}D\n({ppsize}cm)"
+                title=f"{member}'s pp", description=f"8{pp}D\n({ppsize}cm)"
             )
         )
 
