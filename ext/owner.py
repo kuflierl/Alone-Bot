@@ -135,7 +135,7 @@ class Owner(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def status(self, ctx: commands.Context):
-        await ctx.reply(f"The current bot's status is {bot.activity}.")
+        await ctx.reply(f"The current bot's status is {self.bot.activity}.")
 
     @status.command()
     async def set(self, ctx: commands.Context, type: str, *, activity: str):
