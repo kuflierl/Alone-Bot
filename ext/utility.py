@@ -104,7 +104,7 @@ class Utility(commands.Cog):
             return await ctx.reply("You don't have a todo list!")
         for task_number in _todo:
             task = _todo.get(task_number)
-            task_list += f"{task_number}: {task}\n"
+            task_list += f"**__{task_number}__**: **{task}**\n"
         await ctx.reply(embed=discord.Embed(title="Todo", description=task_list))
     
     @todo.command()
