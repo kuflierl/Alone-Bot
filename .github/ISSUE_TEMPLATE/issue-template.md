@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-[ ] This issue is an feature request.
-[ ] This issue is a bug report.
+- [ ] This issue is an feature request.
+- [ ] This issue is a bug report.
 
 What is your discord username?:
 
