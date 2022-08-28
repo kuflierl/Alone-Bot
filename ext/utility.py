@@ -114,7 +114,7 @@ class Utility(commands.Cog):
         if not _todo:
             self.bot.todo[ctx.author.id] = {}
         task_number = len(self.bot.todo.get(ctx.author.id)) + 1
-        task = Todo_Task(task_text, ctx.message.jump_url)
+        task = bot.Todo_Task(task_text, ctx.message.jump_url)
         self.bot.todo[ctx.author.id][task_number] = task
         await ctx.message.add_reaction(ctx.emoji.check)
     
