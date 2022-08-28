@@ -18,7 +18,7 @@ class AloneContext(commands.Context):
                 embed.timestamp = discord.utils.utcnow()
 
         if button:
-          kwargs["view"] = views.DeleteView(self)
+            kwargs["view"] = views.DeleteView(self)
 
         return await super().send(*args, **kwargs)
 
