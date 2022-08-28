@@ -54,7 +54,9 @@ class Utility(commands.Cog):
         await ctx.message.add_reaction(ctx.emoji.check)
 
     @prefix.command()
-    async def add(self, ctx: commands.Context, *, prefix: str):
+    async def add(self, ctx: commands.Context, *, prefix: str = None):
+        if not prefix:
+            return await ctx.reply("You need to specify the prefix!")
         if len(prefix) >= 15:
             return await ctx.reply(
                 "Your prefix can't be longer than 15 characters, sorry!"
@@ -69,6 +71,8 @@ class Utility(commands.Cog):
 
     @prefix.command()
     async def remove(self, ctx: commands.Context, prefix: str = None):
+        if not prefix:
+            return await ctx.reply("You need to specify the prefix!")
         if not prefix:
             try:
                 self.bot.user_prefix.pop(ctx.author.id)
