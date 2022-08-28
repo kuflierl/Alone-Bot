@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 async def urban(word: str):
-    async with bot.session as session:
+    async with aiohttp.ClientSession() as session:
         async with session.get(
             f"https://api.urbandictionary.com/v0/define?term={word}"
         ) as word:

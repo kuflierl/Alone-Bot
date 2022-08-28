@@ -133,18 +133,11 @@ class Utility(commands.Cog):
     async def invite(self, ctx: commands.Context):
         normal_perms = discord.utils.oauth_url(
             self.bot.user.id,
-            discord.Permissions(27494536309),
-            scopes=("bot", "applications.commands"),
-        )
-        moderation_perms = discord.utils.oauth_url(
-            self.bot.user.id,
-            discord.Permissions(274945363015),
-            scopes=("bot", "applications.commands"),
         )
         await ctx.reply(
             embed=discord.Embed(
-                title="Invite me using these links!",
-                description=f"[Normal Permissions]({normal_perms})\n\n[Moderation Permissions]({moderation_perms})\n(Enables Moderation commands)",
+                title="Invite me!",
+                description=f"[Invite Me!]({normal_perms})",
                 color=0x28E8ED,
             )
         )
@@ -264,7 +257,7 @@ class Utility(commands.Cog):
         message = await channel.send(
             embed=discord.Embed(
                 title=f"Suggestion by {ctx.author.name}",
-                description=f"`{arg}`",
+                description=f"`{suggestion}`",
                 color=0xFFFFFF,
             )
         )

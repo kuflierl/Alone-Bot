@@ -15,7 +15,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_guild_permissions(manage_channels=True)
     @commands.has_guild_permissions(manage_channels=True)
     async def channel(self, ctx: commands.Context):
-        await ctx.reply(discord.Embed(title="Channel Info", description=f"Channel Name: {ctx.channel.name}\nID: {ctx.channel.id}\nCategory: {ctx.channel.category}\nSlowmode: {ctx.channel.slowmode}s"))
+        await ctx.reply(embed=discord.Embed(title="Channel Info", description=f"Channel Name: {ctx.channel.name}\nID: {ctx.channel.id}\nCategory: {ctx.channel.category}\nSlowmode: {ctx.channel.slowmode_delay}s"))
 
     @channel.command()
     @commands.bot_has_guild_permissions(manage_channels=True)
