@@ -34,7 +34,7 @@ class AloneBot(commands.AutoShardedBot):
         self.user_blacklist: dict[int, str] = {}
         self.guild_blacklist: list = []
         self.afk: dict[int, str] = {}
-        self.todo: dict[int, dict[int, str]] = {}
+        self.todo: dict[int, dict[Todo_Task]] = {}
         self.user_prefix: dict[int, list] = {34937972103561218: [":pensivewiggle"]}
         self.guild_prefix: dict[int, str] = {}
         self.no_prefix: list = []
@@ -111,3 +111,8 @@ class BlacklistedError(commands.CheckFailure):
     pass
 class MaintenanceError(commands.CheckFailure):
     pass
+
+class Todo_Task():
+    def __init__(self, text: str, url: str):
+        self.text: str = text or ""
+        self.jump_url: str = url or ""
