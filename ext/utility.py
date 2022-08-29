@@ -4,6 +4,7 @@ from discord.ext import commands
 import time
 import inspect
 from utils import views, bot
+from utils.paginator import Paginator
 
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -103,14 +104,14 @@ class Utility(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def todo(self, ctx: commands.Context):
-        task_list = ""
+        paginator = Paginator().start(ctx)
         _todo = self.bot.todo.get(ctx.author.id)
         if not _todo:
             return await ctx.reply("You don't have a todo list!")
         for task_number in _todo:
             task = _todo.get(task_number)
-            task_list += f"**__[{task_number}]({task.jump_url})__**: **{task.text}**\n"
-        await ctx.reply(embed=discord.Embed(title="Todo", description=task_list))
+            paginator.add_line(f"**__[{task_number}]({task.jump_url})__**: {task}")
+        await ctx.reply(embed=discord.Embed(title="Todo", description=paginator))
     
     @todo.command(aliases=["add"])
     async def _add(self, ctx: commands.Context, *, task_text: str):
