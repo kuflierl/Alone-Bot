@@ -10,3 +10,4 @@ aiohttp
 python-dotenv
 better-ipc
 discord-ext-menus
+youtube-dl
