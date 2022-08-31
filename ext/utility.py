@@ -104,13 +104,11 @@ class Utility(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def todo(self, ctx: commands.Context):
-        paginator = Paginator().start(ctx)
         _todo = self.bot.todo.get(ctx.author.id)
         if not _todo:
             return await ctx.reply("You don't have a todo list!")
         for task_number in _todo:
             task = _todo.get(task_number)
-            paginator.add_line(f"**__[{task_number}]({task.jump_url})__**: {task}")
         await ctx.reply(embed=discord.Embed(title="Todo", description=paginator))
     
     @todo.command(aliases=["add"])
